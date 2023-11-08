@@ -1,1 +1,2 @@
 09.11.2023 - Cloned the repository. Created the environment and a test Flask app.
+09.11.2023 - Created the environment and a test Flask app.
