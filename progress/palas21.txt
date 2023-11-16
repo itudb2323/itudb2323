@@ -1,0 +1,1 @@
+16.11.2023 - clone the repository and write the first flask app
