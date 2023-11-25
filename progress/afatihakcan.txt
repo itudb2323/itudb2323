@@ -1,1 +1,4 @@
 25.11.2023 - Cloned the repository and created the .gitignore file
+25.11.2023 - set up mvc structure
+25.11.2023 - app, config, db
+25.11.2023 - added controller, service, dao and model for person.person table
