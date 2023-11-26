@@ -6,6 +6,6 @@ product_bp = Blueprint(name="/product", import_name=__name__, url_prefix="/produ
 
 @product_bp.route("/", methods=["GET"])
 def findAll():
-    persons = ProductService.findAll()
-    persons_list = [person.to_dict() for person in persons]
+    products = ProductService.findAll()
+    products_list = [product.to_dict() for product in products]
     return jsonify(persons_list)
