@@ -6,7 +6,7 @@ from db import db
 class PersonDAO:
     @staticmethod
     def findAll():
-        result = db.session.execute(text("SELECT * FROM person.person"))
+        result = db.session.execute(text("SELECT * FROM person.person limit 10;"))
         column_names = result.keys()
         persons = [Person(**dict(zip(column_names, row))) for row in result.fetchall()]
         return persons

@@ -2,3 +2,5 @@
 25.11.2023 - set up mvc structure
 25.11.2023 - app, config, db
 25.11.2023 - added controller, service, dao and model for person.person table
+
+26.11.2023 - added simple view for person.person table, tested with limited data

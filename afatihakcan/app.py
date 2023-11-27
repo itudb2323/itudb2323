@@ -3,7 +3,7 @@ from db import db
 from config import Config
 from controllers.PersonController import person_bp
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='views')
 app.config.from_object(Config)
 db.init_app(app)
 
