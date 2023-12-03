@@ -8,4 +8,4 @@ product_bp = Blueprint(name="/product", import_name=__name__, url_prefix="/produ
 def findAll():
     products = ProductService.findAll()
     products_list = [product.to_dict() for product in products]
-    return jsonify(persons_list)
+    return jsonify(products_list)

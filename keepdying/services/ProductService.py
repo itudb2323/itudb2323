@@ -1,4 +1,4 @@
-from keepdying.daos.ProductDAO import ProductDAO
+from daos.ProductDAO import ProductDAO
 
 
 class ProductService:
