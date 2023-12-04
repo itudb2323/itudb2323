@@ -5,7 +5,7 @@
     <h1>Person Details</h1>
 
     <h4>Id: {{ personDetails.businessentityid }}</h4>
-    <h4>First Name: {{ personDetails.firstname + " " + personDetails.middlename }}</h4>
+    <h4>First Name: {{ personDetails.firstname + " " + (personDetails.middlename or "") }}</h4>
     <h4>Last Name: {{ personDetails.lastname }}</h4>
     <h4>Email: {{personDetails.emailaddress}}</h4>
     <h4>Phone: {{personDetails.phonenumber}}</h4>
