@@ -10,6 +10,7 @@
                 <th>Id</th>
                 <th>First Name</th>
                 <th>Last Name</th>
+                <th>See details</th>
             </tr>
         </thead>
         <tbody>
@@ -18,8 +19,7 @@
                     <td>{{ person.businessentityid }}</td>
                     <td>{{ person.firstname }}</td>
                     <td>{{ person.lastname }}</td>
-                </tr>
-            {% endfor %}
+                    <td><a href="{{ url_for('person.findDetailsById', id=person.businessentityid) }}">See details</a></td>            {% endfor %}
     </table>
 
 {% endblock %}
