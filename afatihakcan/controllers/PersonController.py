@@ -10,3 +10,8 @@ def findAll():
     # persons_list = [person.to_dict() for person in persons]
     # return jsonify(persons_list)
     return render_template("person/index.html", persons=PersonService.findAll())
+
+@person_bp.route("/<int:id>", methods=["GET"])
+def findDetailsById(id):
+    personDetails = PersonService.findDetailsById(id)
+    return render_template("person/details.html", personDetails=personDetails)
