@@ -1,7 +1,7 @@
-from flask import Blueprint, jsonify, render_template
+from flask import Blueprint, jsonify, render_template, url_for
 from services.PersonService import PersonService
 
-person_bp = Blueprint(name="/person", import_name=__name__, url_prefix="/person")
+person_bp = Blueprint(name="person", import_name=__name__, url_prefix="/person")
 
 
 @person_bp.route("/", methods=["GET"])
