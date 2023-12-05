@@ -3,8 +3,8 @@ from daos.PersonDAO import PersonDAO
 
 class PersonService:
     @staticmethod
-    def findAll():
-        return PersonDAO.findAll()
+    def findAllPaginated(page, per_page):
+        return PersonDAO.findAllPaginated(page=page, per_page=per_page)
 
     @staticmethod
     def findDetailsById(id):

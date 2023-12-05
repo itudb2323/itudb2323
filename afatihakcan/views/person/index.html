@@ -22,4 +22,21 @@
                     <td><a href="{{ url_for('person.findDetailsById', id=person.businessentityid) }}">See details</a></td>            {% endfor %}
     </table>
 
+    <div class="pagination" style="margin-top: 100px;">
+        {# Pagination links #}
+        {% for page_num in range(1, pagination.total_pages + 1) %}
+            {% if page_num == pagination.page %}
+                <span class="current">{{ page_num }}</span>
+            {% else %}
+                <a href="{{ url_for('person.findAllPaginated', page=page_num, per_page=pagination.per_page) }}">{{ page_num }}</a>
+            {% endif %}
+        {% endfor %}
+    </div>
+    
+    
+    
+    
+    
+    
+
 {% endblock %}

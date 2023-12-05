@@ -1,3 +1,4 @@
+from math import ceil
 from sqlalchemy import text
 from models.Person import Person
 from models.PersonDetails import PersonDetails
@@ -6,11 +7,32 @@ from db import db
 
 class PersonDAO:
     @staticmethod
-    def findAll():
-        result = db.session.execute(text("SELECT * FROM person.person limit 10;"))
+    def findAllPaginated(page, per_page):
+        result = db.session.execute(
+            text(
+                """SELECT * 
+                    FROM person.person 
+                    limit :limit 
+                    offset :offset;"""
+            ),
+            {"limit": per_page, "offset": (page - 1) * per_page},
+        )
         column_names = result.keys()
         persons = [Person(**dict(zip(column_names, row))) for row in result.fetchall()]
-        return persons
+
+        total_records = db.session.execute(
+            text(
+                """SELECT count(*) 
+                    FROM person.person;"""
+            )
+        ).scalar()
+        pagination = {
+            "page": page,
+            "per_page": per_page,
+            "total_pages": ceil(total_records / per_page),
+            "total_records": total_records,
+        }
+        return pagination,persons
 
     @staticmethod
     def findDetailsById(id):
