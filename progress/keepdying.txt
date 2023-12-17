@@ -1,1 +1,4 @@
 26.11.2023 - Set up repo
+29.11.2023 - update flask config
+03.12.2023 - fix typos in controller and service
+08.12.2023 - product model and data access object (DAO)
