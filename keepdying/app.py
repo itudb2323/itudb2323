@@ -3,11 +3,11 @@ from db import db
 from config import Config
 from controllers.ProductController import product_bp
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder="views")
 app.config.from_object(Config)
 db.init_app(app)
 
 app.register_blueprint(product_bp)
 
 if __name__ == "__main__":
-    app.run(host=Config.HOST, port=Config.PORT)
+    app.run(host=Config.HOST, port=Config.PORT, debug=Config.DEBUG, use_reloader=Config.USE_RELOADER)

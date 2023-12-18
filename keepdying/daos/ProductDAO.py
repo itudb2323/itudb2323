@@ -15,13 +15,14 @@ class ProductDAO:
         ]
         return products
 
+    @staticmethod
     def findAllPaginated(page, per_page):
         result = db.session.execute(
             text(
                 """SELECT * 
-                    FROM production.product 
-                    limit :limit 
-                    offset :offset;"""
+                   FROM production.product
+                   LIMIT :limit
+                   OFFSET :offset;"""
             ),
             {"limit": per_page, "offset": (page - 1) * per_page},
         )
@@ -32,8 +33,8 @@ class ProductDAO:
 
         total_records = db.session.execute(
             text(
-                """SELECT count(*) 
-                    FROM production.product;"""
+                """SELECT COUNT(*) 
+                   FROM production.product;"""
             )
         ).scalar()
         pagination = {

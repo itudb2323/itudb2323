@@ -1,9 +1,9 @@
+from sys import platform
 class Config:
     DEBUG = True
     USE_RELOADER = True
     HOST = '0.0.0.0'
-    PORT = 5001
-    
+    PORT = 5000 if platform != "darwin" else 5001
     SECRET_KEY = "super-secret-key"
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
