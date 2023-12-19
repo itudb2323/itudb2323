@@ -1,2 +1,4 @@
 16.11.2023 - created first outline of the project and tested flask app
 27.11.2023 - added controller, service, dao and model for production.document table
+
+19.12.2023 - done read utilities of database, and added templates  
