@@ -1,17 +1,130 @@
-<!-- templates/index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TEST</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #ddd;
+        }
+        .button-container button {
+            margin-left: 10px;
+            padding: 10px 20px; /* Enlarge the buttons */
+            font-size: 16px; /* Increase the font size */
+        }
+        .button-container .hire {
+            background-color: green;
+            color: white;
+        }
+        .button-container .fire {
+            background-color: red;
+            color: white;
+        }
+        .button-container .update {
+            background-color: yellow;
+            color: black;
+        }
+    </style>
+    <script>
+        var selectedRows = [];
+        window.onload = function() {
+            var rows = document.getElementsByTagName("tr");
+            for (var i = 0; i < rows.length; i++) {
+                rows[i].addEventListener("click", function() {
+                    var index = selectedRows.indexOf(this);
+                    if (this.style.backgroundColor === "lightblue") {
+                        this.style.backgroundColor = "";
+                        selectedRows.splice(index, 1);
+                    } else {
+                        this.style.backgroundColor = "lightblue";
+                        selectedRows.push(this);
+                    }
+                });
+            }
+        };
+        function hire() {
+        if (selectedRows.length > 0){
+            alert("This person is already hired.");
+        } else {
+            window.location.href='/hire';
+        }
+    };
+        function fire() {
+            if(selectedRows.length > 1){
+                alert("You can only fire one person at a time.");
+            }
+            else if (selectedRows) {
+                console.log(selectedRows[0].innerText + " is fired.");
+            } else {
+                alert("Please select a person to fire.");
+            }
+    };
+        function update() {
+        if(selectedRows.length > 1){
+            alert("You can only update one person at a time.");
+        }
+        else if (selectedRows) {
+            // print selected row to the terminal
+            console.log(selectedRows[0].innerText + "'s informations are updated.");
+        } else {
+            alert("Please select a person to update.");
+        }
+    };
+        function printSelectedRows() {
+            for (var i = 0; i < selectedRows.length; i++) {
+                console.log(selectedRows[i].innerText);
+            }
+        };
+    </script>
 </head>
 <body>
-    <h1>Items</h1>
-    <ul>
-        {% for item in items %}
-            <li>Job Title: {{ item[0] }}, Login ID: {{ item[1] }}</li>
-        {% endfor %}
-    </ul>
+    <div class="button-container">
+        <button class="hire" onclick="hire()">Hire</button>
+        <button class="fire" onclick="fire()">Fire</button>
+        <button class="update" onclick="update()">Update</button>
+        <button onclick="printSelectedRows()">Print Selected Rows</button>
+    </div>
+    <h1>Employees</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Job Title</th>
+                <th>Full Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+                <tr>
+                    <td>{{ item[0] }}</td>
+                    <td>{{ item[1] }} {{ item[2] }} {{ item[3] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </body>
 </html>

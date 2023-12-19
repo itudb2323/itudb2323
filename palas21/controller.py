@@ -7,3 +7,7 @@ index = Blueprint('index', __name__)
 def home():
     data = get_db_data()
     return render_template('index.html', items=data)
+
+@index.route('/hire')
+def hire():
+    return render_template('hire.html')
