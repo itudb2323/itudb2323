@@ -1,0 +1,23 @@
+<!-- document.html -->
+{% extends 'base.html' %}
+
+{% block navigation_link %}
+    <a href="{{ url_for('document.findAllDocuments') }}">Return to Documents</a>
+{% endblock %}
+
+{% block title %}Document Details{% endblock %}
+
+{% block header %}Document Details{% endblock %}
+
+{% block content %}
+    <h2>Document Details</h2>
+    
+    <h3>Owner Details:</h3>
+    <p>Name: {{ owner_details.firstname }} {{ owner_details.middlename or '' }} {{ owner_details.lastname }}</p>
+    <p>National ID: {{ owner_details.nationalidnumber }}</p>
+    <p>Job Title: {{ owner_details.jobtitle }}</p>
+    <p>Birthdate: {{ owner_details.birthdate }}</p>
+    <p>Gender: {{ owner_details.gender }}</p>
+    <p>Hire Date: {{ owner_details.hiredate }}</p>
+{% endblock %}
+

@@ -1,0 +1,40 @@
+/* Example styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #dbe5f1; /* Pastel blue background color */
+}
+
+header {
+    background-color: #6c7a89; /* Slightly darker pastel blue for header */
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+}
+
+main {
+    padding: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+}
+
+footer {
+    background-color: #6c7a89; /* Slightly darker pastel blue for footer */
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+}

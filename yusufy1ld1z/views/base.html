@@ -1,11 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>My Flask App</title>
-  </head>
-  <body>
-    <h1>Welcome to My Flask App!</h1>
-    <p>This is the base template.</p>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>{% block title %}Document Management{% endblock %}</title>
+</head>
+<body>
+
+    <header>
+        <h1>{% block header %}Document Management System{% endblock %}</h1>
+        <nav>
+            {% block navigation_link %}
+                <a href="{{ url_for('document.findAllDocuments') }}">All Documents</a>
+            {% endblock %}
+            <!-- <a href="{{ url_for('document.findAllDocuments') }}">{{ navigation_content|default('All Documents') }}</a> -->
+
+        </nav>
+
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Document Management System</p>
+    </footer>
+
+</body>
 </html>
+
