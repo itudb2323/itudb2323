@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+
+{% block title %}Products{% endblock %}
+
+{% block content %}
+<style>
+    .compact-table {
+        font-size: 0.8em; /* Smaller font size */
+        white-space: nowrap; /* Prevent text wrapping */
+    }
+    .compact-table th,
+    .compact-table td {
+        padding: 0.4em; /* Reduced padding */
+    }
+    .table-responsive {
+        overflow-x: auto; /* Horizontal scroll */
+    }
+</style>
+<div class="table-responsive">
+    <table class="table table-striped compact-table">
+        <!-- Header Row -->
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Product ID</th>
+                <th>Name</th>
+                <th>Product Number</th>
+                <th>Make Flag</th>
+                <th>Finished Goods Flag</th>
+                <th>Color</th>
+                <th>Safety Stock Level</th>
+                <th>Reorder Point</th>
+                <th>Standard Cost</th>
+                <th>List Price</th>
+                <th>Size</th>
+                <th>Size Unit Measure Code</th>
+                <th>Weight Unit Measure Code</th>
+                <th>Weight</th>
+                <th>Days to Manufacture</th>
+                <th>Product Line</th>
+                <th>Class</th>
+                <th>Style</th>
+                <th>Product Subcategory ID</th>
+                <th>Product Model ID</th>
+                <th>Sell Start Date</th>
+                <th>Sell End Date</th>
+                <th>Discontinued Date</th>
+                <th>Modified Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Product Rows -->
+            {% for product in products %}
+            <tr>
+                <td>{{ (pagination.page - 1) * pagination.per_page + loop.index }}</td>
+                <td>{{ product.productid }}</td>
+                <td>{{ product.name }}</td>
+                <td>{{ product.productnumber }}</td>
+                <td>{{ 'Yes' if product.makeflag else 'No' }}</td>
+                <td>{{ 'Yes' if product.finishedgoodsflag else 'No' }}</td>
+                <td>{{ product.color }}</td>
+                <td>{{ product.safetystocklevel }}</td>
+                <td>{{ product.reorderpoint }}</td>
+                <td>{{ product.standardcost }}</td>
+                <td>{{ product.listprice }}</td>
+                <td>{{ product.size }}</td>
+                <td>{{ product.sizeunitmeasurecode }}</td>
+                <td>{{ product.weightunitmeasurecode }}</td>
+                <td>{{ product.weight }}</td>
+                <td>{{ product.daystomanufacture }}</td>
+                <td>{{ product.productline }}</td>
+                <td>{{ product.class_ }}</td>
+                <td>{{ product.style }}</td>
+                <td>{{ product.productsubcategoryid }}</td>
+                <td>{{ product.productmodelid }}</td>
+                <td>{{ product.sellstartdate.strftime('%Y-%m-%d') if product.sellstartdate }}</td>
+                <td>{{ product.sellenddate.strftime('%Y-%m-%d') if product.sellenddate }}</td>
+                <td>{{ product.discontinueddate.strftime('%Y-%m-%d') if product.discontinueddate }}</td>
+                <td>{{ product.modifieddate.strftime('%Y-%m-%d %H:%M:%S') if product.modifieddate }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <!-- Pagination Controls -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <ul class="pagination">
+            <!-- Link to the first page -->
+            <li class="page-item {% if pagination.page == 1 %}disabled{% endif %}">
+                <a class="page-link" href="{{ url_for('product.page', page=1) }}"><<</a>
+            </li>
+    
+            <!-- Show '...' when there are skipped pages before the current range -->
+            {% if pagination.page > 3 %}
+                <li class="page-item disabled"><span class="page-link">...</span></li>
+            {% endif %}
+    
+            <!-- Pagination Window -->
+            {% set start_page = [pagination.page - 2, 1]|max %}
+            {% set end_page = [start_page + 4, pagination.total_pages]|min %}
+            {% for i in range(start_page, end_page + 1) %}
+                <li class="page-item {% if i == pagination.page %}active{% endif %}">
+                    <a class="page-link" href="{{ url_for('product.page', page=i) }}">{{ i }}</a>
+                </li>
+            {% endfor %}
+    
+            <!-- Show '...' when there are skipped pages after the current range -->
+            {% if pagination.page < pagination.total_pages - 2 %}
+                <li class="page-item disabled"><span class="page-link">...</span></li>
+            {% endif %}
+    
+            <!-- Link to the last page -->
+            <li class="page-item {% if pagination.page == pagination.total_pages %}disabled{% endif %}">
+                <a class="page-link" href="{{ url_for('product.page', page=pagination.total_pages) }}">>></a>
+            </li>
+        </ul>
+    </nav>
+    
+</div>
+{% endblock %}
