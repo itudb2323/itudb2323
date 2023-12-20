@@ -16,15 +16,19 @@ class ProductDAO:
         return products
 
     @staticmethod
-    def findAllPaginated(page, per_page):
+    def findAllPaginated(page, per_page, sort_by="modifieddate", order="desc"):
         result = db.session.execute(
             text(
-                """SELECT * 
+                f"""SELECT * 
                    FROM production.product
+                   ORDER BY {sort_by} {order}
                    LIMIT :limit
                    OFFSET :offset;"""
             ),
-            {"limit": per_page, "offset": (page - 1) * per_page},
+            {
+                "limit": per_page,
+                "offset": (page - 1) * per_page,
+            },
         )
         column_names = result.keys()
         products = [

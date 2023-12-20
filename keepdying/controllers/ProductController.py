@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, render_template, redirect, url_for
+from flask import Blueprint, jsonify, render_template, redirect, url_for, request
 from services.ProductService import ProductService
 
 product_bp = Blueprint(name="product", import_name=__name__, url_prefix="/product")
@@ -20,8 +20,10 @@ def page(page):
     # If page 0 redirect to page 1
     if page == 0:
         return redirect(url_for('product.page', page=1))
+    sort_by = request.args.get('sort_by', default='name')
+    order = request.args.get('order', default='asc')
     per_page = 10  # Number of products per page
-    pagination, products = ProductService.findAllPaginated(page, per_page)
+    pagination, products = ProductService.findAllPaginated(page, per_page, sort_by, order)
     if page > pagination["total_pages"] and pagination["total_pages"] != 0:
         return redirect(url_for('product.page', page=pagination["total_pages"]))
     return render_template('products/read_paginated.html', products=products, pagination=pagination)
