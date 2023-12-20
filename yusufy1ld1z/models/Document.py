@@ -33,4 +33,4 @@ class Document(BaseEntity):
         UUID(as_uuid=True), default=func.uuid_generate_v1(), nullable=False
     )
     modifieddate = Column(DateTime, nullable=False, default=func.now())
-    documentnode = Column(Integer, nullable=False, primary_key=True, default=-1)
+    documentnode = Column(String(50), nullable=False, primary_key=True, default="/")

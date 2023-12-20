@@ -9,6 +9,8 @@
 {% block content %}
     <h2>All Documents</h2>
     
+    <button onclick="openAddDocumentForm()">Add Document</button>
+
     <table>
         <thead>
             <tr>
@@ -39,4 +41,9 @@
             {% endfor %}
         </tbody>
     </table>
+    <script>
+        function openAddDocumentForm() {
+            window.location.href = "{{ url_for('document.showAddDocumentForm') }}";
+        }
+    </script>
 {% endblock %}
