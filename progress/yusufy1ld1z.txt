@@ -2,3 +2,4 @@
 27.11.2023 - added controller, service, dao and model for production.document table
 19.12.2023 - done read utilities of database, and added templates 
 20.12.2023 - done create utilities of database
+22.12.2023 - done update and delete utilities of database, and added templates
