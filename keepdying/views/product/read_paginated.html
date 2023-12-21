@@ -16,6 +16,11 @@
     .table-responsive {
         overflow-x: auto; /* Horizontal scroll */
     }
+    .wrap-text {
+        white-space: normal;
+        word-wrap: break-word;
+        max-width: 120px; /* Adjust as needed */
+    }
 </style>
 <script>
     // JavaScript function to handle sorting
@@ -54,14 +59,14 @@
                 <th onclick="sortBy('standardcost')">Standard Cost</th>
                 <th onclick="sortBy('listprice')">List Price</th>
                 <th onclick="sortBy('size')">Size</th>
-                <th onclick="sortBy('sizeunitmeasurecode')">Size Unit Measure Code</th>
-                <th onclick="sortBy('weightunitmeasurecode')">Weight Unit Measure Code</th>
+                <th onclick="sortBy('sizeunitmeasurecode')">Size Unit</th>
+                <th onclick="sortBy('weightunitmeasurecode')">Weight Unit</th>
                 <th onclick="sortBy('weight')">Weight</th>
                 <th onclick="sortBy('daystomanufacture')">Days to Manufacture</th>
                 <th onclick="sortBy('productline')">Product Line</th>
                 <th onclick="sortBy('class_')">Class</th>
                 <th onclick="sortBy('style')">Style</th>
-                <th onclick="sortBy('productsubcategoryid')">Product Subcategory ID</th>
+                <th onclick="sortBy('productsubcategoryid')">Subcategory ID</th>
                 <th onclick="sortBy('productmodelid')">Product Model ID</th>
                 <th onclick="sortBy('sellstartdate')">Sell Start Date</th>
                 <th onclick="sortBy('sellenddate')">Sell End Date</th>
@@ -74,7 +79,9 @@
             {% for product in products %}
             <tr>
                 <td>{{ (pagination.page - 1) * pagination.per_page + loop.index }}</td>
-                <td>{{ product.productid }}</td>
+                <td>
+                    <a href="{{ url_for('product.find_details_by_id', id=product.productid) }}">{{ product.productid }}</a>
+                </td>
                 <td>{{ product.name }}</td>
                 <td>{{ product.productnumber }}</td>
                 <td>{{ 'Yes' if product.makeflag else 'No' }}</td>

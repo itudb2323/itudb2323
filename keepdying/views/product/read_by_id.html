@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2>Product Details</h2>
+    {% if product_details %}
+        <table class="table table-bordered">
+            <tbody>
+                {% for key, value in product_details.__dict__.items() %}
+                    {% if value is not none %}
+                        <tr>
+                            <th>{{ key }}</th>
+                            <td>{{ value }}</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Product not found.</p>
+    {% endif %}
+</div>
+{% endblock %}

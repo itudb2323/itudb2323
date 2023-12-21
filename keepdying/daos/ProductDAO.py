@@ -7,7 +7,7 @@ from db import db
 
 class ProductDAO:
     @staticmethod
-    def findAll():
+    def find_all():
         result = db.session.execute(text("SELECT * FROM production.product"))
         column_names = result.keys()
         products = [
@@ -16,7 +16,7 @@ class ProductDAO:
         return products
 
     @staticmethod
-    def findAllPaginated(page, per_page, sort_by="modifieddate", order="desc"):
+    def find_all_paginated(page, per_page, sort_by="modifieddate", order="desc"):
         result = db.session.execute(
             text(
                 f"""SELECT * 
@@ -50,17 +50,11 @@ class ProductDAO:
         return pagination, products
 
     @staticmethod
-    def findDetailsById(id):
+    def find_details_by_id(id):
         result = db.session.execute(
             text(
                 """SELECT 
-                p.ProductID,
-                p.Name,
-                p.ProductNumber,
-                p.Color,
-                p.StandardCost,
-                p.ListPrice,
-                pr.ReviewID,
+                p.*,
                 pr.ReviewerName,
                 pr.ReviewDate,
                 pr.Rating,
