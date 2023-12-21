@@ -19,6 +19,10 @@ class DocumentService:
         return DocumentDAO.findOwnerDetailsById(owner_id)
 
     @staticmethod
+    def findDocumentByNode(document_node):
+        return DocumentDAO.findDocumentByNode(document_node)
+
+    @staticmethod
     def findFileContentByNode(document_node):
         return DocumentDAO.findFileContentByNode(document_node)
 
@@ -48,6 +52,42 @@ class DocumentService:
             documentsummary,
             document,
             documentnode,
+        )
+
+    @staticmethod
+    def deleteDocument(documentnode):
+        return DocumentDAO.deleteDocument(documentnode)
+
+    @staticmethod
+    def updateDocument(
+        title,
+        owner,
+        folderflag,
+        filename,
+        fileextension,
+        revision,
+        changenumber,
+        status,
+        documentsummary,
+        document,
+        new_documentnode,
+        old_documentnode,
+        isfilechanged,
+    ):
+        return DocumentDAO.updateDocument(
+            title,
+            owner,
+            folderflag,
+            filename,
+            fileextension,
+            revision,
+            changenumber,
+            status,
+            documentsummary,
+            document,
+            new_documentnode,
+            old_documentnode,
+            isfilechanged,
         )
 
     @staticmethod

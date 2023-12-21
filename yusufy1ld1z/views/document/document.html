@@ -10,6 +10,8 @@
     <h2>All Documents</h2>
     
     <button onclick="openAddDocumentForm()">Add Document</button>
+    <button onclick="openUpdateDocumentForm()">Update Document</button>
+    <button onclick="confirmDeleteDocument()">Delete Document</button>
 
     <table>
         <thead>
@@ -25,7 +27,7 @@
         </thead>
         <tbody>
             {% for document in documents %}
-                <tr>
+                <tr data-document-node="{{ document.documentnode }}" onclick="selectDocument(this)">
                     <td>{{ document.title }}</td>
                     <td>{{ document.documentsummary }}</td>
                     <td>{{ "Folder" if document.folderflag else "File" }}</td>
@@ -42,8 +44,75 @@
         </tbody>
     </table>
     <script>
+        var selectedDocument = null;
+    </script>
+    <script>
         function openAddDocumentForm() {
             window.location.href = "{{ url_for('document.showAddDocumentForm') }}";
         }
+
+        function openUpdateDocumentForm() {
+            if (selectedDocument) {
+                // Navigate to the update page with the selected document ID
+                var updateUrl = "{{ url_for('document.showUpdateDocumentForm', document_node='__document_node__') }}";
+                updateUrl = updateUrl.replace('__document_node__', selectedDocument.documentnode);
+                window.location.href = updateUrl;
+            } else {
+                alert("Please select a document to update.");
+            }
+        }
+    
+        function confirmDeleteDocument() {
+            if (selectedDocument) {
+                // Show a confirmation dialog
+                var confirmation = confirm("Are you sure you want to delete the selected document?");
+                if (confirmation) {
+                    // Proceed with deletion
+                    var deleteUrl = "{{ url_for('document.deleteDocument', document_node='__document_node__') }}";
+                    deleteUrl = deleteUrl.replace('__document_node__', selectedDocument.documentnode);
+        
+                    // Submit the form using AJAX
+                    fetch(deleteUrl, {
+                        method: 'POST',
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Success, handle the successful response (e.g., redirect or display a success message)
+                            alert('Document deleted successfully!');
+                            window.location.href = '{{ url_for("document.findAllDocuments") }}';
+                        } else {
+                            // Handle the case where deletion was not successful
+                            alert('Error: ' + data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error.message);
+                        alert('An unexpected error occurred. Please try again.');
+                    });
+                }
+            } else {
+                alert("Please select a document to delete.");
+            }
+        }
+    
+        function selectDocument(row) {
+            // Highlight the selected row
+            var selectedRows = document.querySelectorAll('tr.selected');
+            selectedRows.forEach(selectedRow => {
+                selectedRow.classList.remove('selected');
+            });
+            row.classList.add('selected');
+            // Store the selected document information
+            selectedDocument = {
+                documentnode: row.getAttribute('data-document-node'),
+            };
+        }
     </script>
+    <style>
+        /* Add some styles for the selected rows */
+        tr.selected {
+            background-color: #cce5ff; 
+        }
+    </style>
 {% endblock %}
