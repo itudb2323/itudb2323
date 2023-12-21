@@ -1,1 +1,5 @@
 16.11.2023 - clone the repository and write the first flask app
+08.12.2023 - Implemented controller and model, updated app.py, and displayed some database data in HTML
+19.12.2023 - index.html is modified for better visualization. some buttons are added for opeartions. not functional right now. hire.html is created. humanresources.employee and person.person table's are joined to get the name of the employee. -
+20.12.2023 - update.html is created and data from the database shown as placeholder for spesific rows.   
+

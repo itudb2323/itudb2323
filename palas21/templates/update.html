@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Hire Form</title>
+    <title>Update Form</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -28,9 +28,9 @@
             padding: 20px 0;
         }
         form {
-        max-width: 80%; /* Adjust this value to make the form wider */
-        margin: 20px auto; /* Adjust the top and bottom margins to center the form vertically */
-        padding: 40px; /* Adjust this value to make the form taller */
+        max-width: 80%; 
+        margin: 20px auto; 
+        padding: 40px; 
         background-color: white;
         box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.1);
     }
@@ -49,23 +49,23 @@
 </head>
 <body>
     <button class="previous-button" onclick="window.location.href='/'">Previous</button>
-    <h1>Hire Form</h1>
+    <h1>Update Form</h1>
     
     <form>
         <label for="firstName">First Name:</label>
-        <input type="text" id="firstName" name="firstName"><br><br>
+        <input type="text" id="firstName" name="firstName" placeholder="{{item[0][1]}}"><br><br>
 
         <label for="middleName">Middle Name:</label>
-        <input type="text" id="middleName" name="middleName"><br><br>
+        <input type="text" id="middleName" name="middleName" placeholder="{{item[0][2]}}"><br><br>
         
         <label for="surname">Surname:</label>
-        <input type="text" id="surname" name="surname"><br><br>
+        <input type="text" id="surname" name="surname" placeholder="{{item[0][3]}}"><br><br>
         
         <label for="jobTitle">Job Title:</label>
-        <input type="text" id="jobTitle" name="jobTitle"><br><br>
+        <input type="text" id="jobTitle" name="jobTitle" placeholder="{{item[0][0]}}"><br><br>
         
         <button type="reset">Reset</button>
-        <button type="submit">Save</button>
+        <button type="submit">Update</button>
     </form>
 </body>
 </html>
