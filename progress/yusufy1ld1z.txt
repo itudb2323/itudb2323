@@ -4,3 +4,4 @@
 20.12.2023 - done create utilities of database
 22.12.2023 - done update and delete utilities of database, and added templates
 22.12.2023 - added search bar
+23.12.2023 - added introduction page, enhanced document details
