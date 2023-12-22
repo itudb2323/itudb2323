@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block navigation_link %}
+    <a href="{{ url_for('document.findAllDocuments') }}">Return to Documents</a>
+{% endblock %}
+
+{% block header %}Search Documents{% endblock %}
+
+{% block content %}
+    <h2>Search Documents</h2>
+
+    {% if search_result %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Summary</th>
+                    <th>Folder Flag</th>
+                    <th>Modified Date</th>
+                    <th>Document Node</th>
+                    <th>Filename</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for document in search_result %}
+                    <tr data-document-node="{{ document.documentnode }}" onclick="selectDocument(this)">
+                        <td>{{ document.title }}</td>
+                        <td>{{ document.documentsummary }}</td>
+                        <td>{{ "Folder" if document.folderflag else "File" }}</td>
+                        <td>{{ document.modifieddate }}</td>
+                        <td>{{ document.documentnode }}</td>
+                        {% if document.folderflag %}
+                            <td></td>
+                        {% else %}
+                            <td><a href="{{ url_for('document.downloadFile', document_node=document.documentnode) }}" download>{{ document.filename }}</a></td>
+                        {% endif %}
+                        <td><a href="{{ url_for('document.findOwnerDetailsById', owner_id=document.owner) }}">Details</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No documents found with that title.</p>
+    {% endif %}
+{% endblock %}

@@ -158,3 +158,9 @@ def showUpdateDocumentForm(document_node):
         )
         # Redirect to the document list page or another appropriate page
         return redirect(url_for("document.findAllDocuments"))
+
+
+@document_bp.route("/all_documents/search/<path:search_input>")
+def searchDocuments(search_input):
+    documents = DocumentService.findDocumentByTitle(search_input)
+    return render_template("document/search.html", search_result=documents)

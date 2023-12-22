@@ -9,9 +9,16 @@
 {% block content %}
     <h2>All Documents</h2>
     
-    <button onclick="openAddDocumentForm()">Add Document</button>
-    <button onclick="openUpdateDocumentForm()">Update Document</button>
-    <button onclick="confirmDeleteDocument()">Delete Document</button>
+    <div id="action-buttons">
+        <button onclick="openAddDocumentForm()">Add Document</button>
+        <button onclick="openUpdateDocumentForm()">Update Document</button>
+        <button onclick="confirmDeleteDocument()">Delete Document</button>
+    </div>
+
+    <div id="search-container">
+        <input type="text" id="search-input" placeholder="Search by title...">
+        <button onclick="searchDocuments()">Search</button>
+    </div>
 
     <table>
         <thead>
@@ -47,6 +54,15 @@
         var selectedDocument = null;
     </script>
     <script>
+
+        function searchDocuments() {
+            var searchInput = document.getElementById('search-input').value;
+            // Implement your search logic here, e.g., navigate to a new controller with the search input
+            var searchUrl = "{{ url_for('document.searchDocuments', search_input='__search_input__') }}";
+            searchUrl = searchUrl.replace('__search_input__', searchInput);
+            window.location.href = searchUrl;
+        }
+
         function openAddDocumentForm() {
             window.location.href = "{{ url_for('document.showAddDocumentForm') }}";
         }
@@ -113,6 +129,26 @@
         /* Add some styles for the selected rows */
         tr.selected {
             background-color: #cce5ff; 
+        }
+        /* Add some styles to position the search container */
+        #search-container {
+            position: absolute;
+            top: 220px; /* Adjust the top position as needed */
+            right: 10px; /* Adjust the right position as needed */
+            display: flex;
+            align-items: center;
+        }
+
+        #search-input {
+            margin-right: 5px;
+        }
+        
+        #action-buttons {
+            margin-bottom: 10px; /* Adjust the margin as needed */
+        }
+
+        #action-buttons button {
+            margin-right: 5px; /* Adjust the margin as needed */
         }
     </style>
 {% endblock %}

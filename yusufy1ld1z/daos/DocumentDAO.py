@@ -36,6 +36,24 @@ class DocumentDAO:
         return documents
 
     @staticmethod
+    def findDocumentByTitle(search_title):
+        # Using ILIKE for case-insensitive search, you can adjust this based on your database engine
+        query = text(
+            "SELECT * FROM production.document WHERE title ILIKE :search_title"
+        )
+        result = db.session.execute(query, {"search_title": f"%{search_title}%"})
+
+        column_names = result.keys()
+
+        documents = [
+            Document(
+                **dict(zip(column_names, row)),
+            )
+            for row in result.fetchall()
+        ]
+        return documents
+
+    @staticmethod
     def findOwnerDetailsById(owner_id):
         result = db.session.execute(
             text(

@@ -23,6 +23,10 @@ class DocumentService:
         return DocumentDAO.findDocumentByNode(document_node)
 
     @staticmethod
+    def findDocumentByTitle(search_title):
+        return DocumentDAO.findDocumentByTitle(search_title)
+
+    @staticmethod
     def findFileContentByNode(document_node):
         return DocumentDAO.findFileContentByNode(document_node)
 
