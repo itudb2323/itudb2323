@@ -3,6 +3,7 @@ from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.sql import func
 from models.BaseEntity import BaseEntity
 from dataclasses import dataclass
+from helpers import *
 
 
 @dataclass
@@ -36,3 +37,29 @@ class Product(BaseEntity):
         UUID(as_uuid=True), default=func.uuid_generate_v1(), nullable=False
     )
     modifieddate = Column(DateTime, default=func.now(), nullable=False)
+
+field_types = {
+    "name": str,
+    "productnumber": str,
+    "makeflag": str_to_bool,
+    "finishedgoodsflag": str_to_bool,
+    "color": str,
+    "safetystocklevel": str_to_int,
+    "reorderpoint": str_to_int,
+    "standardcost": str_to_int,
+    "listprice": str_to_int,
+    "size": str,
+    "sizeunitmeasurecode": str,
+    "weightunitmeasurecode": str,
+    "weight": str_to_int,
+    "daystomanufacture": str_to_int,
+    "productline": str,
+    "class_": str,
+    "style": str,
+    "productsubcategoryid": str_to_int,
+    "productmodelid": str_to_int,
+    "sellstartdate": str_to_date,
+    "sellenddate": str_to_date,
+    "discontinueddate": str_to_date,
+    "modifieddate": str_to_date,
+}

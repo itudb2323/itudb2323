@@ -1,5 +1,7 @@
 from math import ceil
 from sqlalchemy import text
+from uuid import uuid1
+from datetime import datetime
 from models.Product import Product
 from models.ProductDetails import ProductDetails
 from db import db
@@ -74,3 +76,104 @@ class ProductDAO:
         column_names = result.keys()
         productDetails = ProductDetails(**dict(zip(column_names, result.fetchone())))
         return productDetails
+
+    @staticmethod
+    def create(**kwargs):
+        product = Product(**kwargs)
+        product.rowguid = uuid1()
+        product.modifieddate = datetime.now()
+        db.session.execute(
+            text(
+                """INSERT INTO production.product (
+                    Name,
+                    ProductNumber,
+                    MakeFlag,
+                    FinishedGoodsFlag,
+                    Color,
+                    SafetyStockLevel,
+                    ReorderPoint,
+                    StandardCost,
+                    ListPrice,
+                    Size,
+                    SizeUnitMeasureCode,
+                    WeightUnitMeasureCode,
+                    Weight,
+                    DaysToManufacture,
+                    ProductLine,
+                    Class_,
+                    Style,
+                    ProductSubcategoryID,
+                    ProductModelID,
+                    SellStartDate,
+                    SellEndDate,
+                    DiscontinuedDate,
+                    RowGuid,
+                    ModifiedDate
+                ) VALUES (
+                    :Name,
+                    :ProductNumber,
+                    :MakeFlag,
+                    :FinishedGoodsFlag,
+                    :Color,
+                    :SafetyStockLevel,
+                    :ReorderPoint,
+                    :StandardCost,
+                    :ListPrice,
+                    :Size,
+                    :SizeUnitMeasureCode,
+                    :WeightUnitMeasureCode,
+                    :Weight,
+                    :DaysToManufacture,
+                    :ProductLine,
+                    :Class,
+                    :Style,
+                    :ProductSubcategoryID,
+                    :ProductModelID,
+                    :SellStartDate,
+                    :SellEndDate,
+                    :DiscontinuedDate,
+                    :RowGuid,
+                    :ModifiedDate
+                );"""
+            ),
+            {
+                "Name": product.name,
+                "ProductNumber": product.productnumber,
+                "MakeFlag": product.makeflag,
+                "FinishedGoodsFlag": product.finishedgoodsflag,
+                "Color": product.color,
+                "SafetyStockLevel": product.safetystocklevel,
+                "ReorderPoint": product.reorderpoint,
+                "StandardCost": product.standardcost,
+                "ListPrice": product.listprice,
+                "Size": product.size,
+                "SizeUnitMeasureCode": product.sizeunitmeasurecode,
+                "WeightUnitMeasureCode": product.weightunitmeasurecode,
+                "Weight": product.weight,
+                "DaysToManufacture": product.daystomanufacture,
+                "ProductLine": product.productline,
+                "Class": product.class_,
+                "Style": product.style,
+                "ProductSubcategoryID": product.productsubcategoryid,
+                "ProductModelID": product.productmodelid,
+                "SellStartDate": product.sellstartdate,
+                "SellEndDate": product.sellenddate,
+                "DiscontinuedDate": product.discontinueddate,
+                "RowGuid": product.rowguid,
+                "ModifiedDate": product.modifieddate,
+            },
+        )
+        # Return product id
+        product.productid = db.session.execute(
+            text(
+                """SELECT ProductID
+                   FROM production.product
+                   WHERE Name = :Name AND RowGuid = :RowGuid;"""
+            ),
+            {
+                "Name": product.name,
+                "RowGuid": product.rowguid,
+            },
+        ).scalar()
+        db.session.commit()
+        return product

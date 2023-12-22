@@ -1,5 +1,7 @@
+import traceback
 from flask import Blueprint, jsonify, render_template, redirect, url_for, request, flash
 from services.ProductService import ProductService
+from models.Product import field_types as product_field_types
 
 product_bp = Blueprint(name="product", import_name=__name__, url_prefix="/product")
 
@@ -54,13 +56,22 @@ def create():
         try:
             # Extract data from form
             form_data = request.form.to_dict()
-
+            # Convert data to appropriate types
+            for key, value in form_data.items():
+                if type(value) == str and value == "":
+                    form_data[key] = None
+                else:
+                    form_data[key] = product_field_types[key](value)
+            # Set default values for bools TODO: Handle this better
+            form_data["makeflag"] = form_data.get("makeflag", False)
+            form_data["finishedgoodsflag"] = form_data.get("finishedgoodsflag", False)
             # Create the product
-            ProductService.create(**form_data)
-
+            product = ProductService.create(**form_data)
             flash("Product created successfully!", "success")
-            return redirect(url_for(""))  # Redirect to the appropriate page
+            return redirect(url_for("product.find_details_by_id", id=product.productid))  # Redirect to the appropriate page
         except Exception as e:
-            flash(str(e), "danger")
+            print(repr(e))
+            print(traceback.format_exc())
+            flash(repr(e), "error")
 
-    return render_template("product/create.html")
+    return render_template('product/create.html')

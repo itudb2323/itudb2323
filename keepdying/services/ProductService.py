@@ -13,3 +13,7 @@ class ProductService:
     @staticmethod
     def find_details_by_id(id):
         return ProductDAO.find_details_by_id(id)
+
+    @staticmethod
+    def create(**kwargs):
+        return ProductDAO.create(**kwargs)
