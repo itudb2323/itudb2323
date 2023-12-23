@@ -13,3 +13,7 @@ class PersonService:
     @staticmethod
     def updateDetailsById(id, personDetails):
         return PersonDAO.updateDetailsById(id, personDetails)
+
+    @staticmethod
+    def create(personCreateDto):
+        return PersonDAO.create(personCreateDto)
