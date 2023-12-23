@@ -9,3 +9,7 @@ class PersonService:
     @staticmethod
     def findDetailsById(id):
         return PersonDAO.findDetailsById(id)
+
+    @staticmethod
+    def updateDetailsById(id, personDetails):
+        return PersonDAO.updateDetailsById(id, personDetails)
