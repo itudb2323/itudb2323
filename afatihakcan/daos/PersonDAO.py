@@ -103,3 +103,56 @@ class PersonDAO:
         except:
             db.session.rollback()
             raise
+
+    @staticmethod
+    def create(personCreateDto):
+        businessentityid = db.session.execute(
+            text("""select max(businessentityid) + 1 from person.businessentity""")
+        ).scalar()
+
+        try:
+            with db.session.begin_nested():
+                db.session.execute(
+                    text(
+                        """insert into person.businessentity (businessentityid, rowguid, modifieddate)
+                        values (:businessentityid, uuid_generate_v1(), now())"""
+                    ),
+                    {"businessentityid": businessentityid},
+                )
+
+                db.session.execute(
+                    text(
+                        """insert into person.person (businessentityid, persontype, firstname, middlename, lastname, modifieddate) 
+                            values (:businessentityid, :persontype, :firstname, :middlename, :lastname, now());"""
+                    ),
+                    {
+                        "businessentityid": businessentityid,
+                        "persontype": personCreateDto.persontype,
+                        "firstname": personCreateDto.firstname,
+                        "middlename": personCreateDto.middlename,
+                        "lastname": personCreateDto.lastname,
+                    },
+                )
+                db.session.execute(
+                    text(
+                        """insert into person.personphone (businessentityid, phonenumber, phonenumbertypeid, modifieddate) 
+                            values (:businessentityid, :phonenumber, :phonenumbertypeid, now());"""
+                    ),
+                    {
+                        "businessentityid": businessentityid,
+                        "phonenumbertypeid": personCreateDto.phonenumbertypeid,
+                        "phonenumber": personCreateDto.phonenumber},
+                )
+                db.session.execute(
+                    text(
+                        """insert into person.emailaddress (businessentityid, emailaddress, modifieddate) 
+                            values (:businessentityid, :emailaddress, now());"""
+                    ),
+                    {
+                        "businessentityid": businessentityid,
+                        "emailaddress": personCreateDto.emailaddress},
+                )
+                db.session.commit()
+        except:
+            db.session.rollback()
+            raise
