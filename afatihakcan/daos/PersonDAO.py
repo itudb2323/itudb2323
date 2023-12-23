@@ -59,3 +59,47 @@ class PersonDAO:
         column_names = result.keys()
         personDetails = PersonDetails(**dict(zip(column_names, result.fetchone())))
         return personDetails
+
+    @staticmethod
+    def updateDetailsById(id, personDetails):
+        print(personDetails)
+        try:
+            with db.session.begin_nested():
+                db.session.execute(
+                    text(
+                        """update person.person 
+                            set firstname = :firstname, 
+                                middlename = :middlename, 
+                                lastname = :lastname, 
+                                modifieddate = now() 
+                            where businessentityid = :id;"""
+                    ),
+                    {
+                        "id": id,
+                        "firstname": personDetails.firstname,
+                        "middlename": personDetails.middlename,
+                        "lastname": personDetails.lastname,
+                    },
+                )
+                db.session.execute(
+                    text(
+                        """update person.personphone 
+                            set phonenumber = :phonenumber, 
+                                modifieddate = now() 
+                            where businessentityid = :id;"""
+                    ),
+                    {"id": id, "phonenumber": personDetails.phonenumber},
+                )
+                db.session.execute(
+                    text(
+                        """update person.emailaddress 
+                            set emailaddress = :emailaddress, 
+                                modifieddate = now() 
+                            where businessentityid = :id;"""
+                    ),
+                    {"id": id, "emailaddress": personDetails.emailaddress},
+                )
+                db.session.commit()
+        except:
+            db.session.rollback()
+            raise
