@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, redirect, render_template, request, url_for
 from models.PersonDetails import PersonDetails
 from services.PersonService import PersonService
+from dtos.PersonCreateDTO import PersonCreateDto
 
 person_bp = Blueprint(name="person", import_name=__name__, url_prefix="/person")
 
@@ -42,3 +43,22 @@ def updateDetailsById(id):
 
     personDetails = PersonService.findDetailsById(id)
     return render_template("person/update.html", personDetails=personDetails)
+
+
+@person_bp.route("/create", methods=["GET", "POST"])
+def create():
+    if request.method == "POST":
+        new_data = {
+            "persontype": request.form.get("persontype"),
+            "firstname": request.form.get("firstname"),
+            "middlename": request.form.get("middlename"),
+            "lastname": request.form.get("lastname"),
+            "emailaddress": request.form.get("emailaddress"),
+            "phonenumber": request.form.get("phonenumber"),
+            "phonenumbertypeid": request.form.get("phonenumbertypeid"),
+        }
+        personCreateDto = PersonCreateDto(**new_data) 
+        PersonService.create(personCreateDto)
+        return redirect(url_for("person.findAllPaginated"))
+
+    return render_template("person/create.html")
