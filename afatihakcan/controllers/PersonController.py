@@ -1,4 +1,5 @@
-from flask import Blueprint, jsonify, render_template, request, url_for
+from flask import Blueprint, jsonify, redirect, render_template, request, url_for
+from models.PersonDetails import PersonDetails
 from services.PersonService import PersonService
 
 person_bp = Blueprint(name="person", import_name=__name__, url_prefix="/person")
@@ -21,3 +22,23 @@ def findAllPaginated():
 def findDetailsById(id):
     personDetails = PersonService.findDetailsById(id)
     return render_template("person/details.html", personDetails=personDetails)
+
+
+@person_bp.route("/<int:id>/update", methods=["GET", "POST"])
+def updateDetailsById(id):
+    if request.method == "POST":
+        new_data = {
+            "firstname": request.form.get("firstname"),
+            "middlename": request.form.get("middlename"),
+            "lastname": request.form.get("lastname"),
+            "phonenumber": request.form.get("phonenumber"),
+            "emailaddress": request.form.get("emailaddress"),
+        }
+        print(new_data)
+        personDetails = PersonDetails(**new_data) 
+        
+        PersonService.updateDetailsById(id, personDetails)
+        return redirect(url_for("person.findDetailsById", id=id))
+
+    personDetails = PersonService.findDetailsById(id)
+    return render_template("person/update.html", personDetails=personDetails)
