@@ -17,3 +17,7 @@ class PersonService:
     @staticmethod
     def create(personCreateDto):
         return PersonDAO.create(personCreateDto)
+    
+    @staticmethod
+    def deleteById(id):
+        return PersonDAO.deleteById(id)
