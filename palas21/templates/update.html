@@ -2,70 +2,33 @@
 <html>
 <head>
     <title>Update Form</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f0f0;
-        }
-        .previous-button {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-        }
-        .previous-button:hover {
-            background-color: #0056b3;
-        }
-        h1 {
-            color: #007BFF;
-            text-align: center;
-            padding: 20px 0;
-        }
-        form {
-        max-width: 80%; 
-        margin: 20px auto; 
-        padding: 40px; 
-        background-color: white;
-        box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.1);
-    }
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='update.css') }}">
 </head>
 <body>
     <button class="previous-button" onclick="window.location.href='/'">Previous</button>
+    
     <h1>Update Form</h1>
     
-    <form>
-        <label for="firstName">First Name:</label>
-        <input type="text" id="firstName" name="firstName" placeholder="{{item[0][1]}}"><br><br>
+    <form> 
 
-        <label for="middleName">Middle Name:</label>
-        <input type="text" id="middleName" name="middleName" placeholder="{{item[0][2]}}"><br><br>
+        <label for="id">ID:</label>
+        <input type="text" id="id" name="id" placeholder="{{item[0][4]}}" readonly><br><br>
+
+        <label for="firstname">First Name:</label>
+        <input type="text" id="firstname" name="firstname" placeholder="{{item[0][1]}}"><br><br>
+
+        <label for="middlename">Middle Name:</label>
+        <input type="text" id="middlename" name="middlename" placeholder="{{item[0][2]}}"><br><br>
         
-        <label for="surname">Surname:</label>
-        <input type="text" id="surname" name="surname" placeholder="{{item[0][3]}}"><br><br>
+        <label for="lastname">Surname:</label>
+        <input type="text" id="lastname" name="lastname" placeholder="{{item[0][3]}}"><br><br>
         
-        <label for="jobTitle">Job Title:</label>
-        <input type="text" id="jobTitle" name="jobTitle" placeholder="{{item[0][0]}}"><br><br>
+        <label for="jobtitle">Job Title:</label>
+        <input type="text" id="jobtitle" name="jobtitle" placeholder="{{item[0][0]}}"><br><br>
         
         <button type="reset">Reset</button>
-        <button type="submit">Update</button>
+        <button type="button" onclick="update()">Update</button> 
     </form>
+    <script src="{{ url_for('static', filename='update.js') }}"></script>
 </body>
 </html>

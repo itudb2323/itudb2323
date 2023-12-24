@@ -1,0 +1,44 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+}
+h1 {
+    color: #333;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+}
+th, td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+th {
+    background-color: #4CAF50;
+    color: white;
+}
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+tr:hover {
+    background-color: #ddd;
+}
+.button-container button {
+    margin-left: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+.button-container .hire {
+    background-color: green;
+    color: white;
+}
+.button-container .fire {
+    background-color: red;
+    color: white;
+}
+.button-container .update {
+    background-color: yellow;
+    color: black;
+}
