@@ -5,6 +5,11 @@
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
+            /* center */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         h1 {
@@ -20,26 +25,39 @@
         }
 
         .attribute-box {
-            width: 25%;
+            width: 100%;
+            min-width: 400px;
             padding: 10px;
             margin-bottom: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
         }
 
-        a {
-            color: #28a745;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 20px;
+        .button-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        a:hover {
-            text-decoration: underline;
+        .button-link {
+            display: inline-block;
+            padding: 10px 15px;
+            margin-right: 10px;
+            text-decoration: none;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            cursor: pointer;
+        }
+
+        .button-link:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+            text-decoration: none;
         }
 
         #deleteLink {
-            color: #dc3545;
+            background-color: #dc3545;
             margin-left: 20px;
         }
     </style>
@@ -77,9 +95,12 @@
 
     </div>
 
-    <a href="{{ url_for('person.updateDetailsById', id=personDetails.businessentityid) }}">Update Details</a>
-    <a href="#" id="deleteLink">Delete Person</a>
-
+    <div class="button-box">
+        <a class="button-link" href="{{ url_for('person.findAllPaginated') }}" >Back to List</a>
+        <a class="button-link" href="{{ url_for('person.updateDetailsById', id=personDetails.businessentityid) }}">Update Details</a>
+        <a class="button-link" href="#" id="deleteLink">Delete Person</a>
+    </div>
+    
     <script>
         function deletePerson() {
             var confirmed = confirm("Are you sure you want to delete this person?");
