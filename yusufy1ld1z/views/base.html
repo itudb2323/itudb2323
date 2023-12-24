@@ -6,7 +6,81 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <title>{% block title %}Document Management{% endblock %}</title>
-    {% block style %}{% endblock %}
+    {% block style %}
+        <style>
+            .entrance-content {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center; 
+            }
+            .entrance-content li {
+                text-align: left;
+                margin-bottom: 10px; 
+            }
+            .entrance-content ul {
+                text-align: center;  /* Center text within these elements */
+            }
+
+            .table-bordered {
+                border-collapse: collapse;
+                width: 70%;
+                margin: auto;
+            }
+            
+            .table-bordered, .table-bordered th, .table-bordered td {
+                border: 1px solid #ddd;
+            }
+            
+            .table-striped tbody tr {
+                background-color: #f9f9f9;
+            }
+            
+            .table-bordered th, .table-bordered td {
+                padding: 8px;
+                text-align: left;
+            }
+            
+            .table-bordered th {
+                background-color: #f2f2f2;
+            }
+            
+            /* Additional styling for Key Information section */
+            .table-bordered th[colspan="2"] {
+                background-color: #e0e0e0;
+            }
+            .table-relationships {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-around;
+            }
+            
+            .relationship {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                border: 1px solid #ccc;
+                padding: 15px;
+                margin-bottom: 20px;
+                width: 45%;
+            }
+            
+            .relationship .description {
+                width: 60%;
+            }
+            
+            .relationship .table-image {
+                width: 35%;
+                margin-left: 15px;
+            }
+            
+            @media (max-width: 768px) {
+                .relationship {
+                    width: 100%;
+                }
+            }
+        </style>
+    {% endblock %}
 </head>
 <body>
 
@@ -22,7 +96,126 @@
     </header>
 
     <main>
-        {% block content %}{% endblock %}
+        {% block content %}
+        <div class="entrance-content">
+            <h2>About Us</h2>
+            <p>Welcome to our Document Management System.<br>
+                
+We strive to offer a straightforward and user-friendly experience for effectively managing your documents.<br
+            </p>
+            <ul>
+                <li>Group Name: itudb2323</li>
+                <li>Lecture: Database Systems</li>
+                <li>Lecturer: Associate Professor. Ali Cakmak</li>
+                <li>CRN: 12166</li>
+            </ul>
+        
+            <h2>Database Details</h2>
+            <p>Our system is powered by a robust database. Here are some details about our database:</p>
+            <ul>
+                <li>Database Title: AdventureWorks</li>
+                <li>Database Type: PostgreSQL</li>
+                <li>Data Description: Adventure Works 2014 (OLTP version) is a sample database for Microsoft SQL Server,<br> 
+                    which has replaced Northwind and Pub sample databases that were shipped earlier.<br>
+                    The database is about a fictitious, multinational bicycle manufacturer called Adventure Works Cycles.
+                </li>
+            </ul>
+
+            <div class="document-details-section">
+                <h2>Document Table Details</h2>
+                <p>
+                    Our Document Management System primarily focuses on the production.document table within our robust database.<br> 
+                    This table serves as the core entity for managing documents efficiently. Here are some details about our database:</p>
+
+                <p>The production.document table serves as the foundation for managing documents within our system. Here's a comprehensive overview of its structure:</p>
+            
+                <table class="table-bordered table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th colspan="2">Key Information</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Number of Columns:</td>
+                            <td>13</td>
+                        </tr>
+                        <tr>
+                            <td>Primary Key:</td>
+                            <td>documentnode (character varying)</td>
+                        </tr>
+                        <tr>
+                            <td>Foreign Keys:</td>
+                            <td>
+                                owner (integer), referencing humanresources.employee(businessentityid)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Non-Key Columns:</td>
+                            <td>
+                                title, folderflag, filename, fileextension, revision, changenumber, status, documentsummary, document, rowguid, modifieddate
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            
+                <h3>Visualizing the Table Structure</h3>
+                <div class="table-image-container">
+                    <img src="{{ url_for('static', filename='images/document_table.png') }}" alt="Production.Document Table Image" class="table-image">
+                </div>
+            
+                <div class="relationships-section">
+                    <h3>Relationships with Other Tables</h3>
+                    <p class="description">
+                        The production.document table interacts with several key tables to manage documents effectively:
+                    </p>
+                
+                    <div class="table-relationships">
+                        <div class="relationship">
+                            <h4 class="table-name">humanresources.employee</h4>
+                            <p class="description">
+                                <strong>Linking Documents to Owners:</strong> The owner column in the production.document table references the businessentityid column in this table, ensuring each document is associated with its rightful owner.
+                            </p>
+                            <img src="{{ url_for('static', filename='images/employee_table.png') }}" alt="HumanResources.Employee Table Image" class="table-image">
+                        </div>
+                
+                        <div class="relationship">
+                            <h4 class="table-name">production.productdocument</h4>
+                            <p class="description">
+                                <strong>Connecting Documents to Products:</strong> This table references the documentnode column in the production.document table, establishing a clear relationship between documents and the products they relate to.
+                            </p>
+                            <img src="{{ url_for('static', filename='images/productdocument_table.png') }}" alt="Production.ProductDocument Table Image" class="table-image">
+                        </div>
+                
+                        <div class="relationship">
+                            <h4 class="table-name">person.person</h4>
+                            <p class="description">
+                                <strong>Retrieving Owner Details:</strong> This table is used to extract the firstname, middlename, and lastname columns when accessing owner details within the application, providing a more comprehensive view of document ownership.
+                            </p>
+                            <img src="{{ url_for('static', filename='images/person_table.png') }}" alt="Person.Person Table Image" class="table-image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h2>Functionality Highlights</h2>
+            <p>Our Document Management System offers the following key functionalities:</p>
+            <ul>
+                <li>Effortless document creation and updating</li>
+                <li>Secure storage and retrieval of documents</li>
+                <li>Search documents with ease</li>
+                <li>Access and transfer files effortlessly</li>
+                <li>See the details of the owner of your document</li>
+                <li>CRUD operations with considering all constraints</li>
+            </ul>
+            <h2>About Me</h2>
+            <ul>
+                <li>Name: Yusuf Yildiz</li>
+                <li>Student ID: 150210006</li>
+                <li>University: Istanbul Technical University</li>
+                <li>Department: Computer Engineering</li>
+            </ul>
+        </div>
+        {% endblock %}
     </main>
 
     <footer>

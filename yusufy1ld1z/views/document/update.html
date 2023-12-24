@@ -1,0 +1,278 @@
+<!-- addition.html -->
+{% extends 'base.html' %}
+
+{% block navigation_link %}
+    <a href="{{ url_for('document.findAllDocuments') }}">Return to Documents</a>
+{% endblock %}
+
+{% block style %}
+    <style>
+        /* Add your custom styles here */
+        #add-doc {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        input[type="checkbox"] {
+            margin-bottom: 15px;
+        }
+
+        #fileInputContainer {
+            display: block;
+        }
+
+        #add-doc input[type="submit"] {
+            background-color: #4caf50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #add-doc input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+{% endblock %}
+
+{% block title %}Update Document{% endblock %}
+
+{% block header %}Update Document{% endblock %}
+
+{% block content %}
+    <h2>Update Document</h2>
+    
+    <form id="add-doc" method="post" action="{{ url_for('document.showUpdateDocumentForm', document_node=old_document.documentnode) }}" enctype="multipart/form-data">
+        <label for="title">Title:</label>
+        <input type="text" name="title" id="title" value="{{ old_document.title if old_document else '' }}" required><br>
+        
+        <label for="owner">Owner:</label>
+        <select name="owner" id="owner" size="5" style="overflow-y: auto;" required>
+            <option value="" selected disabled>Select an owner</option>
+            {% for employee in employees %}
+                <option value="{{ employee.businessentityid }}" {% if old_document and old_document.owner == employee.businessentityid %}selected{% endif %}>
+                    {{ employee.firstname }} {{employee.middlename or ''}} {{ employee.lastname }}
+                </option>
+            {% endfor %}
+        </select><br>
+    
+        <label for="status">Status:</label>
+        <select name="status" id="status">
+            <option value="1" {% if old_document and old_document.status == 1 %}selected{% endif %}>Status 1</option>
+            <option value="2" {% if old_document and old_document.status == 2 %}selected{% endif %}>Status 2</option>
+            <option value="3" {% if old_document and old_document.status == 3 %}selected{% endif %}>Status 3</option>
+        </select><br>
+        
+        <label for="folderflag">Folder Flag:</label>
+        <input type="checkbox" name="folderflag" id="folderflag" onchange="toggleFileInput()" {% if old_document and old_document.folderflag %}checked{% endif %}><br>
+        
+        <input type="hidden" name="isfilechanged" id="isfilechanged" value="False">
+
+        <div id="fileInputContainer">
+            <label for="document">File:</label>
+            {% if (old_document and old_document.document and old_document.filename) or old_document.folderflag %}
+                {% if old_document.folderflag %}
+                    <p>Old Document: Folder</p>
+                {% else %}
+                    <p>Old Document: {{ old_document.filename|escape }}</p>
+                {% endif %}
+                <input type="hidden" name="filename" value="{{ old_document.filename }}">
+                <input type="hidden" name="fileextension" value="{{ old_document.fileextension }}"> 
+                <input type="hidden" name="document" value="{{ old_document.document }}">
+                <input type="file" name="document" id="document" data-doc-info="True"><br>
+            {% else %}
+                <input type="hidden" name="filename" value="">
+                <input type="hidden" name="fileextension" value="">
+                <input type="hidden" name="document" value="">
+                <input type="file" name="document" id="document" data-doc-info="False" required><br>
+            {% endif %}
+        </div>
+        
+        <label for="revision">Revision:</label>
+        <input type="text" name="revision" id="revision" value="{{ old_document.revision if old_document else '' }}" required><br>
+    
+        <label for="changenumber">Change Number:</label>
+        <input type="text" name="changenumber" id="changenumber" value="{{ old_document.changenumber if old_document else '' }}" required><br>
+    
+        <label for="documentsummary">Document Summary:</label>
+        <textarea name="documentsummary" id="documentsummary" required>{{ old_document.documentsummary if old_document else '' }}</textarea><br>
+    
+        <label for="documentnode">Document Node:</label>
+        <input type="text" name="documentnode" id="documentnode" value="{{ old_document.documentnode if old_document else '' }}" required><br>
+    
+        <input type="submit" value="Update Document">
+    </form>
+
+    <script>
+        // Function to toggle file input based on folder flag checkbox
+        function toggleFileInput() {
+            console.log('Toggling file input...');
+            var folderFlagCheckbox = document.querySelector('input[name="folderflag"]');
+            var fileInputContainer = document.getElementById('fileInputContainer');
+            var fileInput = document.getElementById('document');
+
+            if (folderFlagCheckbox.checked) {
+                // If folderflag is checked, hide the file input
+                console.log('Folder flag is checked. Hiding file input.');
+                fileInputContainer.style.display = 'none';
+
+                // Remove the required attribute for the file input
+                fileInput.removeAttribute('required');
+            } else {
+                // If folderflag is unchecked, show the file input
+                console.log('Folder flag is unchecked. Showing file input.');
+                fileInputContainer.style.display = 'block';
+
+                var documentDataInfo = document.getElementById('document').getAttribute('data-doc-info');
+                if (documentDataInfo == 'False') {
+                    fileInput.setAttribute('required', 'required');
+                }              
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+           // Add 'change' event listener to file input
+           var fileInput = document.getElementById('document');
+           fileInput.addEventListener('change', function (event) {
+               console.log('File input has changed. Processing file...');
+               var file = fileInput.files[0];
+               if (file) {
+                   // Extract filename and file extension
+                   var filename = file.name;
+                   var fileExtension = filename.split('.').pop();
+
+                   // Set the hidden inputs with the extracted values
+                   document.getElementsByName('filename')[0].value = filename;
+                   document.getElementsByName('fileextension')[0].value = fileExtension;
+
+                   document.getElementsByName('isfilechanged')[0].value = "True";
+
+                   // Read the content of the file and encode as hexadecimal
+                   var reader = new FileReader();
+                   reader.onload = function (e) {
+                       var fileContentArray = new Uint8Array(e.target.result);
+                       console.log('Array length:', fileContentArray.length);          
+                       var fileContentHex = Array.from(fileContentArray, byte => byte.toString(16).padStart(2, '0')).join('');
+                       document.getElementsByName('document')[0].value = fileContentHex;
+                       console.log('File content populated.');
+                   };
+                   reader.readAsArrayBuffer(file);
+                } else {
+                    console.log('No existing file selected.');
+                }
+           });
+
+            // Handle the server response after submitting the form
+            var form = document.getElementById('add-doc');
+            form.addEventListener('submit', function (event) {
+                event.preventDefault(); // Prevent the form from submitting normally
+
+                // Perform additional client-side validations if needed
+                var userInput = document.getElementById('documentnode').value.trim();
+                var jsonString = '{{ existing_document_nodes | tojson | safe }}';
+                var cleanJsonString = jsonString.replace(/^"|"$/g, '');
+
+                // Parse the cleaned JSON string into a JavaScript array
+                var existingNodes = JSON.parse(cleanJsonString);
+
+                // Validate required fields
+                if (!validateRequiredFields()) {
+                    return; // Stop the submission if validation fails
+                }
+                
+                if (userInput == '{{ old_document.documentnode }}') {
+                    // Submit the form using AJAX if the document node is unique
+                    fetch(form.action, {
+                        method: 'POST',
+                        body: new FormData(form),
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            // Success, handle the successful response (e.g., redirect or display a success message)
+                            alert('Document updated successfully!');
+                            window.location.href = '{{ url_for("document.findAllDocuments") }}';
+                            // You might want to redirect the user to a different page or update the UI accordingly
+                        } else {
+                            // Handle other error cases
+                            return response.json().then(data => {
+                                if (data && data.error) {
+                                    alert('Error: ' + data.error);
+                                } else {
+                                    alert('An unexpected error occurred. Please try again.');
+                                }
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error.message);
+                    });
+                } else {
+                    if (existingNodes.includes(userInput)) {
+                        alert('The document node "' + userInput + '" already exists. Please choose a different document node.');
+                        // Clear the input field or ask the user to change the input
+                        document.getElementById('documentnode').value = '';
+                    } else {
+                        // Submit the form using AJAX if the document node is unique
+                        fetch(form.action, {
+                            method: 'POST',
+                            body: new FormData(form),
+                        })
+                        .then(response => {
+                            if (response.ok) {
+                                // Success, handle the successful response (e.g., redirect or display a success message)
+                                alert('Document updated successfully!');
+                                window.location.href = '{{ url_for("document.findAllDocuments") }}';
+                                // You might want to redirect the user to a different page or update the UI accordingly
+                            } else {
+                                // Handle other error cases
+                                return response.json().then(data => {
+                                    if (data && data.error) {
+                                        alert('Error: ' + data.error);
+                                    } else {
+                                        alert('An unexpected error occurred. Please try again.');
+                                    }
+                                });
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error.message);
+                        });
+                    }
+                }
+            });
+
+            // Function to validate required fields
+            function validateRequiredFields() {
+                var requiredFields = form.querySelectorAll('[required]');
+                for (var i = 0; i < requiredFields.length; i++) {
+                    if (!requiredFields[i].value.trim()) {
+                        alert('Please fill in all required fields.');
+                        return false;
+                    }
+                }
+                return true;
+            }
+        });
+    </script>
+
+{% endblock %}

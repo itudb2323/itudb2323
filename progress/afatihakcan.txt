@@ -4,3 +4,6 @@
 25.11.2023 - added controller, service, dao and model for person.person table
 
 26.11.2023 - added simple view for person.person table, tested with limited data
+
+04.12.2023 - added simple view, controller, service, dao and model for person details
+05.12.2023 - added simple pagination

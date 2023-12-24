@@ -14,4 +14,7 @@
     <h4>Postal code: {{personDetails.postalcode}}</h4>
     <h4>State: {{personDetails.state}}</h4>
 
+    <a href="{{ url_for('person.updateDetailsById', id=personDetails.businessentityid) }}">Update Details</a>
+
+
 {% endblock %}
