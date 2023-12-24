@@ -317,7 +317,7 @@ class PersonDAO:
                 )
                     
                 db.session.commit()
+                return True
         except:
             db.session.rollback()
-            print("Error while deleting person")
-            raise
+            return False
