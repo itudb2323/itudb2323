@@ -1,5 +1,53 @@
 {% extends 'base.html' %}
 
+{% block style %}
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    h1 {
+      color: #007bff;
+      margin-bottom: 20px;
+    }
+
+    form {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 16px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px 15px;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+{% endblock %}
+
 {% block body %}
   <h1>Create Person</h1>
 
@@ -30,7 +78,7 @@
     </div>
 
     <div>
-      <label for="phonenumbertypeid">Select phone type: </label>
+      <label for="phonenumbertypeid">Select phone type:</label>
       <select name="phonenumbertypeid" id="phonenumbertypeid">
         <option value="1">Cell</option>
         <option value="2">Home</option>
@@ -39,12 +87,12 @@
     </div>
 
     <div>
-      <label for="persontype">Select person type: </label>
+      <label for="persontype">Select person type:</label>
       <select name="persontype" id="persontype">
-        <option value="SC">Store Contact </option>
+        <option value="SC">Store Contact</option>
         <option value="IN">Individual (retail) customer</option>
         <option value="SP">Sales person</option>
-        <option value="EM">Employee (non-sales) </option>
+        <option value="EM">Employee (non-sales)</option>
         <option value="VC">Vendor contact</option>
         <option value="GC">General contact</option>
       </select>
