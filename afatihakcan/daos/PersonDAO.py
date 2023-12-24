@@ -149,3 +149,175 @@ class PersonDAO:
         except:
             db.session.rollback()
             raise
+
+    @staticmethod
+    def deleteById(id):
+        try:
+            with db.session.begin_nested():
+
+                documentnodes = db.session.execute(
+                    text(
+                        """select documentnode from production.document where owner = :id;"""
+                    ),
+                    {"id": id},
+                ).fetchall()
+                for documentnode in documentnodes:
+                    documentnode = documentnode[0]
+                    if documentnode:
+                        db.session.execute(
+                            text(
+                                """delete from production.productdocument where documentnode=:documentnode;"""
+                            ),
+                            {"documentnode": documentnode},
+                        )
+                db.session.execute(
+                    text("""delete from production.document where owner=:id;"""),
+                    {"id": id},
+                )
+
+                purchaseorderids = db.session.execute(
+                    text(
+                        """select purchaseorderid from purchasing.purchaseorderheader where employeeid = :id;"""
+                    ),
+                    {"id": id},
+                ).fetchall()
+                for purchaseorderid in purchaseorderids:
+                    purchaseorderid = purchaseorderid[0]
+                    if purchaseorderid:
+                        db.session.execute(
+                            text(
+                                """delete from purchasing.purchaseorderdetail where purchaseorderid = :purchaseorderid;"""
+                            ),
+                            {"purchaseorderid": purchaseorderid},
+                        )
+                db.session.execute(
+                    text(
+                        """delete from purchasing.purchaseorderheader where employeeid = :id;"""
+                    ),
+                    {"id": id},
+                )
+
+                salespersonid = db.session.execute(
+                    text(
+                        """select businessentityid from sales.salesperson where businessentityid = :id;"""
+                    ),
+                    {"id": id},
+                ).scalar()
+                if salespersonid:
+                    db.session.execute(
+                        text(
+                            """update sales.salesorderheader set salespersonid = null where salespersonid = :salespersonid;"""
+                        ),
+                        {"salespersonid": salespersonid},
+                    )
+
+                    db.session.execute(
+                        text(
+                            """delete from sales.salespersonquotahistory where businessentityid = :salespersonid;"""
+                        ),
+                        {"salespersonid": salespersonid},
+                    )
+
+                    db.session.execute(
+                        text(
+                            """delete from sales.salesterritoryhistory where businessentityid = :salespersonid;"""
+                        ),
+                        {"salespersonid": salespersonid},
+                    )
+
+                    db.session.execute(
+                        text(
+                            """update sales.store set salespersonid = null where salespersonid = :salespersonid;"""
+                        ),
+                        {"salespersonid": salespersonid},
+                    )
+
+                    db.session.execute(
+                        text(
+                            """delete from sales.salesperson where businessentityid = :salespersonid;"""
+                        ),
+                        {"salespersonid": salespersonid},
+                    )
+
+                db.session.execute(
+                    text(
+                        """delete from humanresources.employeedepartmenthistory where businessentityid = :id;"""
+                    ),
+                    {"id": id},
+                )
+
+                db.session.execute(
+                    text(
+                        """delete from humanresources.employeepayhistory where businessentityid = :id;"""
+                    ),
+                    {"id": id},
+                )
+
+                db.session.execute(
+                    text(
+                        """delete from humanresources.jobcandidate where businessentityid = :id;"""
+                    ),
+                    {"id": id},
+                )
+
+                db.session.execute(
+                    text(
+                        """delete from humanresources.employee where businessentityid = :id;"""
+                    ),
+                    {"id": id},
+                )
+
+                db.session.execute(
+                    text(
+                        """delete from person.businessentitycontact where personid = :id;"""
+                    ),
+                    {"id": id},
+                )
+
+                db.session.execute(
+                    text(
+                        """update sales.customer set personid = null where personid = :id;"""
+                    ),
+                    {"id": id},
+                )
+
+                db.session.execute(
+                    text(
+                        """delete from person.emailaddress where businessentityid = :id;"""
+                    ),
+                    {"id": id},
+                )
+
+                db.session.execute(
+                    text(
+                        """delete from sales.personcreditcard where businessentityid = :id;"""
+                    ),
+                    {"id": id},
+                )
+
+                db.session.execute(
+                    text(
+                        """delete from person.personphone where businessentityid = :id;"""
+                    ),
+                    {"id": id},
+                )
+
+                db.session.execute(
+                    text(
+                        """delete from person.password where businessentityid = :id;"""
+                    ),
+                    {"id": id},
+                )
+
+                db.session.execute(
+                    text(
+                        """delete from person.person where businessentityid = :id;"""
+                    ),
+                    {"id": id},
+                )
+                    
+                db.session.commit()
+        except:
+            db.session.rollback()
+            print("Error while deleting person")
+            raise
