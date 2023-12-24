@@ -1,6 +1,7 @@
-function showDetails(orderId, carrierTrackingNumber, orderQty, unitPrice, totalPrice, productName, productNumber, color, storeName) {
+function showDetails(orderId, orderDetailId, carrierTrackingNumber, orderQty, unitPrice, totalPrice, productName, productNumber, color, storeName) {
     document.getElementById('tab1').innerHTML = `
         <p><strong>Order ID:</strong> ${orderId}</p>
+        <p><strong>Order Detail ID:</strong> ${orderDetailId}</p>
         <p>Carrier Tracking Number: ${carrierTrackingNumber}</p>
         <p>Order Quantity: ${orderQty}</p>
         <p>Unit Price: ${unitPrice}</p>
@@ -9,6 +10,7 @@ function showDetails(orderId, carrierTrackingNumber, orderQty, unitPrice, totalP
 
     document.getElementById('tab2').innerHTML = `
         <p><strong>Order ID:</strong> ${orderId}</p>
+        <p><strong>Order Detail ID:</strong> ${orderDetailId}</p>
         <p>Product Name: ${productName}</p>
         <p>Product Number: ${productNumber}</p>
         <p>Store Name: ${storeName}</p>
