@@ -1,12 +1,8 @@
-from flask import Flask
+from flask import Flask, render_template
+from controller import index
 
 app = Flask(__name__)
-
-
-@app.route('/')
-def test():  # put application's code here
-    return 'Test!'
-
+app.register_blueprint(index)
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)

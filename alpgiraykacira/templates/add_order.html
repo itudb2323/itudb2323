@@ -1,0 +1,135 @@
+{% include 'header.html' %}
+<div class="main-container">
+    <h2>Add New Order</h2>
+    <form method="POST" action="{{ url_for('index.add_order') }}">
+        <div class="form-group">
+            <label for="customer_id">Customer:</label>
+            <select name="customer_id" required>
+                {% for customer in customers %}
+                    <option value="{{ customer[0] }}">{{ customer[0] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="order_date">Order Date:</label>
+            <input type="text" name="order_date" required>
+        </div>
+
+        <div class="form-group">
+            <label for="due_date">Due Date:</label>
+            <input type="text" name="due_date" required>
+        </div>
+
+        <div class="form-group">
+            <label for="ship_date">Ship Date:</label>
+            <input type="text" name="ship_date" required>
+        </div>
+
+        <div class="form-group">
+            <p>1 = In process; 2 = Approved; 3 = Back Ordered; 4 = Rejected; 5 = Shipped; 6 = Cancelled</p>
+            <label for="status">Status:</label>
+            <input type="text" name="status" required>
+        </div>
+
+        <div class="form-group">
+            <label for="carrier_tracking_number">Carrier Tracking Number:</label>
+            <input type="text" name="carrier_tracking_number" required>
+        </div>
+
+        <div class="form-group">
+            <label for="product_id">Product:</label>
+            <select name="product_id" required>
+                {% for product in products %}
+                    <option value="{{ product[0] }}">{{ product[0] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="order_qty">Order Quantity:</label>
+            <input type="text" name="order_qty" required>
+        </div>
+
+        <div class="form-group">
+            <label for="unit_price">Unit Price:</label>
+            <input type="text" name="unit_price" required>
+        </div>
+
+        <div class="form-group">
+            <label for="sales_person_id">Sales Person:</label>
+            <select name="sales_person_id" required>
+                {% for sales_person in sales_persons %}
+                    <option value="{{ sales_person[0] }}">{{ sales_person[0] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="bill_to_address_id">Bill To Address:</label>
+            <select name="bill_to_address_id" required>
+                {% for bill_to_address in bill_to_addresses %}
+                    <option value="{{ bill_to_address[0] }}">{{ bill_to_address[0] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="ship_to_address_id">Ship To Address:</label>
+            <select name="ship_to_address_id" required>
+                {% for ship_to_address in ship_to_addresses %}
+                    <option value="{{ ship_to_address[0] }}">{{ ship_to_address[0] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="ship_method_id">Ship Method:</label>
+            <select name="ship_method_id" required>
+                {% for ship_method in ship_methods %}
+                    <option value="{{ ship_method[0] }}">{{ ship_method[0] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="credit_card_id">Credit Card:</label>
+            <select name="credit_card_id" required>
+                {% for credit_card in credit_cards %}
+                    <option value="{{ credit_card[0] }}">{{ credit_card[0] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="currency_rate_id">Currency Rate:</label>
+            <select name="currency_rate_id" required>
+                {% for currency_rate in currency_rates %}
+                    <option value="{{ currency_rate[0] }}">{{ currency_rate[0] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="special_offer_id">Special Offer:</label>
+            <select name="special_offer_id" required>
+                {% for special_offer in special_offers %}
+                    <option value="{{ special_offer[0] }}">{{ special_offer[0] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="sales_territories">Sales Territories:</label>
+            <select name="sales_territories" required>
+                {% for sales_territory in sales_territories %}
+                    <option value="{{ sales_territory[0] }}">{{ sales_territory[0] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button type="submit">Add Order</button>
+        <button onclick="window.location.href='{{ url_for('index.home') }}'">Cancel</button>
+    </form>
+</div>
+{% include 'footer.html' %}

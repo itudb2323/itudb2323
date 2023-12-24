@@ -1,0 +1,101 @@
+{% include 'header.html' %}
+<body>
+<div class="main-container">
+    <div class="header">
+        <h1>Sales Order Header List and Details</h1>
+    </div>
+    <div class="content">
+        <div class="filter-container">
+            <form method="GET" action="{{ url_for('index.home') }}">
+                <label for="bikeshopFilter">Filter by Bikeshop:</label>
+                <select id="bikeshopFilter" name="bikeshop" onchange="this.form.submit()">
+                    <option value="all">All</option>
+                    {% for bikeshop in bikeshops %}
+                        <option value="{{ bikeshop }}"
+                                {% if selected_bikeshop == bikeshop %}selected{% endif %}>{{ bikeshop }}</option>
+                    {% endfor %}
+                </select>
+            </form>
+
+            <form method="GET" action="{{ url_for('index.home') }}">
+                <label>Order By:</label>
+                <input type="radio" name="orderby" value="soh.salesorderid"
+                       {% if selected_orderby == 'soh.salesorderid' %}checked{% endif %}> Order ID
+                <input type="radio" name="orderby" value="c.customerid"
+                       {% if selected_orderby == 'c.customerid' %}checked{% endif %}> Customer ID
+
+                <button type="submit">Apply Order</button>
+            </form>
+
+            <div>
+                <label>Show/Hide Info Columns:</label>
+                <input type="checkbox" id="showColumns" onchange="toggleColumns()">
+            </div>
+
+        </div>
+        <button onclick="window.location.href='{{ url_for('index.add_order') }}'">Add New Order</button>
+        <table>
+            <tr>
+                <th>Order ID</th>
+                <th>Order Detail ID</th>
+                <th class="toggle-column">Customer ID</th>
+                <th class="toggle-column">Order Date</th>
+                <th class="toggle-column">Due Date</th>
+                <th class="toggle-column">Ship Date</th>
+                <th class="toggle-column">Status</th>
+                <th>Action</th>
+            </tr>
+            {% for item in items %}
+                <tr>
+                    <td>{{ item[0] }}</td>
+                    <td>{{ item[14] }}</td>
+                    <td class="toggle-column">{{ item[12] }}</td>
+                    <td class="toggle-column">{{ item[1] }}</td>
+                    <td class="toggle-column">{{ item[2] }}</td>
+                    <td class="toggle-column">{{ item[3] }}</td>
+                    <td class="status-cell toggle-column" data-status="{{ item[4] }}">{{ item[4] }}</td>
+                    <td class="action-segment">
+                        <div class="action-buttons">
+                            <button class="details-button action-buttons"
+                                    onclick="showDetails('{{ item[0] }}','{{ item[5] }}', '{{ item[6] }}', '{{ item[7] }}', '{{ item[8] }}', '{{ item[9] }}', '{{ item[10] }}', '{{ item[11] }}', '{{ item[13] }}', '{{ item[14] }}')">
+                                Details
+                            </button>
+                            <form method="POST" action="{{ url_for('index.home') }}" class="update-form">
+                                <input type="hidden" name="order_detail_id" value="{{ item[14] }}">
+                                <div class="form-group">
+                                    <label for="order_qty">Unit Quantity:</label>
+                                    <input type="text" name="order_qty" value="{{ item[6] }}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="unit_price">Unit Price:</label>
+                                    <input type="text" name="unit_price" value="{{ item[7] }}">
+                                </div>
+                                <button type="submit" name="update" class="update-button action-buttons">Update</button>
+                            </form>
+                            <form method="POST" action="{{ url_for('index.home') }}" class="delete-form">
+                                <input type="hidden" name="order_detail_id" value="{{ item[14] }}">
+                                <button type="submit" name="delete" class="delete-button action-buttons">Delete</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+<div id="detailPopup" class="detail-popup">
+    <ul class="tabs">
+        <li onclick="openTab(event, 'tab1')">Order Details</li>
+        <li onclick="openTab(event, 'tab2')">Product Details</li>
+    </ul>
+    <div id="tab1" class="tab-content">
+    </div>
+    <div id="tab2" class="tab-content">
+    </div>
+    <button onclick="closePopup()">Close</button>
+</div>
+
+<div id="legendTooltip" class="legend-tooltip"></div>
+</body>
+{% include 'footer.html' %}
