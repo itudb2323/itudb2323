@@ -9,20 +9,21 @@
     <h1>Hire Form</h1>
     
     <form>
-        <label for="firstName">First Name:</label>
-        <input type="text" id="firstName" name="firstName"><br><br>
+        <label for="firstname">First name:</label>
+        <input type="text" id="firstname" name="firstname"><br><br>
 
-        <label for="middleName">Middle Name:</label>
-        <input type="text" id="middleName" name="middleName"><br><br>
+        <label for="middlename">Middle name:</label>
+        <input type="text" id="middlename" name="middlename"><br><br>
         
-        <label for="surname">Surname:</label>
-        <input type="text" id="surname" name="surname"><br><br>
+        <label for="lastname">Surname:</label>
+        <input type="text" id="lastname" name="lastname"><br><br>
         
-        <label for="jobTitle">Job Title:</label>
-        <input type="text" id="jobTitle" name="jobTitle"><br><br>
+        <label for="jobtitle">Job Title:</label>
+        <input type="text" id="jobtitle" name="jobtitle"><br><br>
         
         <button type="reset">Reset</button>
-        <button type="submit">Save</button>
+        <button type="button" onclick="hire()">Save</button>
     </form>
+    <script type="text/javascript" src="{{ url_for('static', filename='hire.js') }}"></script>
 </body>
 </html>

@@ -28,27 +28,30 @@ var selectedRows = [];
     };
 
         function fire() {
-            if(selectedRows.length > 1){
-                alert("You can only fire one person at a time.");
+            if(selectedRows.length == 0){
+                alert("Please select a person to fire.");
             }
-            else if (selectedRows) {
-                var lastTd = selectedRows[0].lastElementChild;
-                var id = lastTd.innerText;
+            else if (selectedRows == 1) {
+                var cells = selectedRows[0].cells;
+                var secondLastTd = cells[cells.length - 2];
+                var id = secondLastTd.innerText;
                 window.location.href='/fire/' + id;
             } else {
-                alert("Please select a person to fire.");
+                alert("You can only fire one person at a time.");
             }
     };
 
         function update() {
-        if(selectedRows.length > 1){
-            alert("You can only update one person at a time.");
-        }
-        else if (selectedRows) {
-            var lastTd = selectedRows[0].lastElementChild;
-            var id = lastTd.innerText;
-            window.location.href='/update/' + id;
-        } else {
+        if(selectedRows.length == 0){
             alert("Please select a person to update.");
+        }
+        else if(selectedRows.length == 1){
+            var cells = selectedRows[0].cells;
+            var secondLastTd = cells[cells.length - 2];
+            var id = secondLastTd.innerText;
+            window.location.href='/update/' + id;
+        }
+        else{
+            alert("You can only update one person at a time.");
         }
     };

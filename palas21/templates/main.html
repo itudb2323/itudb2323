@@ -12,6 +12,24 @@
         <button class="fire" onclick="fire()">Fire</button>
         <button class="update" onclick="update()">Update</button>
     </div>
+    <div class="search-container top-right">
+        <form action="/action_page" class="search-form">
+            <div class="search-input">
+                <input type="search" placeholder="Search.." name="search">
+                <button type="submit">Submit</button>
+            </div>
+            <div class="search-type">
+                <label>
+                    <input type="radio" name="search_type" value="fullname" checked>
+                    Full Name
+                </label>
+                <label>
+                    <input type="radio" name="search_type" value="jobtitle">
+                    Job Title
+                </label>
+            </div>
+        </form>
+    </div>
     <h1>Employees</h1>
     <table>
         <thead>
@@ -19,6 +37,7 @@
                 <th>Job Title</th>
                 <th>Full Name</th>
                 <th>Id</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -27,6 +46,9 @@
                     <td>{{ item[0] }}</td>
                     <td>{{ item[1] }} {{ item[2] }} {{ item[3] }}</td>
                     <td>{{item[4]}}</td>
+                    <td>
+                        <a href="/employee_info/{{item[4]}}" class="info-button">Info</a>
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>
