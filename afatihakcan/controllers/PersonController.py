@@ -62,3 +62,11 @@ def create():
         return redirect(url_for("person.findAllPaginated"))
 
     return render_template("person/create.html")
+
+@person_bp.route("/<int:id>/delete", methods=["DELETE"])
+def deleteById(id):
+    success = PersonService.deleteById(id)
+    message = "Person deleted successfully" if success else "Person not found"
+    if not success:
+        return jsonify({"message": message}), 404
+    return jsonify({"message": message})
