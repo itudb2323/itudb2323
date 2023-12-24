@@ -29,11 +29,11 @@ def findDetailsById(id):
 def updateDetailsById(id):
     if request.method == "POST":
         new_data = {
-            "firstname": request.form.get("firstname"),
-            "middlename": request.form.get("middlename"),
-            "lastname": request.form.get("lastname"),
-            "phonenumber": request.form.get("phonenumber"),
-            "emailaddress": request.form.get("emailaddress"),
+            "firstname": request.form.get("firstname") or None,
+            "middlename": request.form.get("middlename") or None,
+            "lastname": request.form.get("lastname") or None,
+            "phonenumber": request.form.get("phonenumber") or None,
+            "emailaddress": request.form.get("emailaddress") or None,
         }
         print(new_data)
         personDetails = PersonDetails(**new_data) 

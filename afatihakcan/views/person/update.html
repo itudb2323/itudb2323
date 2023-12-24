@@ -11,7 +11,11 @@
 
     <div>
       <label for="middlename">Middle Name:</label>
-      <input type="text" id="middlename" name="middlename" value="{{ personDetails.middlename }}">
+      {% if personDetails.middlename is not none %}
+        <input type="text" id="middlename" name="middlename" value="{{ personDetails.middlename }}">
+      {% else %}
+        <input type="text" id="middlename" name="middlename" value="">
+      {% endif %}
     </div>
 
     <div>
