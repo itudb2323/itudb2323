@@ -1,7 +1,55 @@
 {% extends 'base.html' %}
 
+{% block style %}
+  <style>
+    #header {
+      color: #007bff;
+      margin-bottom: 50px;
+      text-align: center;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 20px;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    form {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 16px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px 15px;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+{% endblock %}
+
 {% block body %}
-  <h1>Update Person Details</h1>
+  <h1 id="header">Update Person Details</h1>
 
   <form method="post">
     <div>
