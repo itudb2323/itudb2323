@@ -42,6 +42,10 @@
       cursor: pointer;
     }
 
+    button.back-button {
+      background-color: #dc3545;
+    }
+
     button:hover {
       background-color: #0056b3;
     }
@@ -82,5 +86,6 @@
     </div>
 
     <button type="submit">Update</button>
+    <button type="button" class="back-button" onclick="window.location=document.referrer;">Back</button>
   </form>
 {% endblock %}
