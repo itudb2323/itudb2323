@@ -38,6 +38,7 @@ class Product(BaseEntity):
     )
     modifieddate = Column(DateTime, default=func.now(), nullable=False)
 
+
 field_types = {
     "name": str,
     "productnumber": str,
@@ -62,4 +63,20 @@ field_types = {
     "sellenddate": str_to_date,
     "discontinueddate": str_to_date,
     "modifieddate": str_to_date,
+}
+
+foreign_key_references = {
+    "Production.BillOfMaterials": ["ProductAssemblyID", "ComponentID"],
+    "Production.ProductCostHistory": ["ProductID"],
+    "Production.ProductDocument": ["ProductID"],
+    "Production.ProductInventory": ["ProductID"],
+    "Production.ProductListPriceHistory": ["ProductID"],
+    "Production.ProductProductPhoto": ["ProductID"],
+    "Production.ProductReview": ["ProductID"],
+    "Purchasing.ProductVendor": ["ProductID"],
+    "Purchasing.PurchaseOrderDetail": ["ProductID"],
+    "Sales.ShoppingCartItem": ["ProductID"],
+    "Sales.SpecialOfferProduct": ["ProductID"],
+    "Production.TransactionHistory": ["ProductID"],
+    "Production.WorkOrder": ["ProductID"],
 }

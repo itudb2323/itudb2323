@@ -1,0 +1,253 @@
+{% extends "base.html" %} {% block content %}
+<div class="container">
+  <h2>Update Product</h2>
+
+  <!-- Display Flask flash messages -->
+  {% with messages = get_flashed_messages() %} {% if messages %}
+  <div class="alert alert-info">
+    {% for message in messages %}
+    <p>{{ message }}</p>
+    {% endfor %}
+  </div>
+  {% endif %} {% endwith %}
+
+  <form method="POST" action="{{ url_for('product.update', id=product_details.productid) }}">
+    <!-- Fields for Product details -->
+    <div class="form-group">
+      <label for="name">Name <span class="text-danger">*</span></label>
+      <input type="text" class="form-control" name="name" id="name" value="{{product_details.name}}" required />
+    </div>
+
+    <div class="form-group">
+      <label for="productnumber">Product Number <span class="text-danger">*</span></label>
+      <input
+        type="text"
+        class="form-control"
+        name="productnumber"
+        id="productnumber"
+        value="{{product_details.productnumber}}"
+        required
+      />
+    </div>
+
+    <div class="form-group form-check">
+      {% if product_details.makeflag %}
+      <input type="checkbox" class="form-check-input" name="makeflag" id="makeflag" checked />
+      {% else %}
+      <input type="checkbox" class="form-check-input" name="makeflag" id="makeflag" />
+      {% endif %}
+      <label class="form-check-label" for="makeflag">Make Flag</label>
+    </div>
+
+    <div class="form-group form-check">
+      {% if product_details.finishedgoodsflag %}
+      <input type="checkbox" class="form-check-input" name="finishedgoodsflag" id="finishedgoodsflag" checked />
+      {% else %}
+      <input type="checkbox" class="form-check-input" name="finishedgoodsflag" id="finishedgoodsflag" />
+      {% endif %}
+      <label class="form-check-label" for="finishedgoodsflag">Finished Goods Flag</label>
+    </div>
+
+    <div class="form-group">
+      <label for="color">Color</label>
+      <input
+        type="text"
+        class="form-control"
+        name="color"
+        id="color"
+        value="{{product_details.color if product_details.color is not none else ''}}"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="safetystocklevel">Safety Stock Level <span class="text-danger">*</span></label>
+      <input
+        type="number"
+        class="form-control"
+        name="safetystocklevel"
+        id="safetystocklevel"
+        value="{{product_details.safetystocklevel}}"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="reorderpoint">Reorder Point <span class="text-danger">*</span></label>
+      <input
+        type="number"
+        class="form-control"
+        name="reorderpoint"
+        id="reorderpoint"
+        value="{{product_details.reorderpoint}}"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="standardcost">Standard Cost <span class="text-danger">*</span></label>
+      <input
+        type="number"
+        class="form-control"
+        name="standardcost"
+        id="standardcost"
+        value="{{product_details.standardcost}}"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="listprice">List Price <span class="text-danger">*</span></label>
+      <input
+        type="number"
+        class="form-control"
+        name="listprice"
+        id="listprice"
+        value="{{product_details.listprice}}"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="size">Size</label>
+      <input
+        type="text"
+        class="form-control"
+        name="size"
+        id="size"
+        value="{{product_details.size if product_details.size is not none else ''}}"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="sizeunitmeasurecode">Size Unit Measure Code</label>
+      <input
+        type="text"
+        class="form-control"
+        name="sizeunitmeasurecode"
+        id="sizeunitmeasurecode"
+        value="{{product_details.sizeunitmeasurecode if product_details.sizeunitmeasurecode is not none else ''}}"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="weightunitmeasurecode">Weight Unit Measure Code</label>
+      <input
+        type="text"
+        class="form-control"
+        name="weightunitmeasurecode"
+        id="weightunitmeasurecode"
+        value="{{product_details.weightunitmeasurecode if product_details.weightunitmeasurecode is not none else ''}}"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="weight">Weight</label>
+      <input type="number" class="form-control" name="weight" id="weight" value="{{product_details.weight}}" />
+    </div>
+
+    <div class="form-group">
+      <label for="daystomanufacture">Days To Manufacture <span class="text-danger">*</span></label>
+      <input
+        type="number"
+        class="form-control"
+        name="daystomanufacture"
+        id="daystomanufacture"
+        value="{{product_details.daystomanufacture}}"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="productline">Product Line</label>
+      <input
+        type="text"
+        class="form-control"
+        name="productline"
+        id="productline"
+        value="{{product_details.productline if product_details.productline is not none else ''}}"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="class_">Class</label>
+      <input
+        type="text"
+        class="form-control"
+        name="class_"
+        id="class_"
+        value="{{product_details.class_ if product_details.class_ is not none else ''}}"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="style">Style</label>
+      <input
+        type="text"
+        class="form-control"
+        name="style"
+        id="style"
+        value="{{product_details.style if product_details.style is not none else ''}}"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="productsubcategoryid">Product Subcategory ID</label>
+      <input
+        type="number"
+        class="form-control"
+        name="productsubcategoryid"
+        id="productsubcategoryid"
+        value="{{product_details.productsubcategoryid}}"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="productmodelid">Product Model ID</label>
+      <input
+        type="number"
+        class="form-control"
+        name="productmodelid"
+        id="productmodelid"
+        value="{{product_details.productmodelid}}"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="sellstartdate">Sell Start Date <span class="text-danger">*</span></label>
+      <input
+        type="date"
+        class="form-control"
+        name="sellstartdate"
+        id="sellstartdate"
+        value="{{product_details.sellstartdate.strftime('%Y-%m-%d')}}"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="sellenddate">Sell End Date</label>
+      <input
+        type="date"
+        class="form-control"
+        name="sellenddate"
+        id="sellenddate"
+        value="{{product_details.sellenddate.strftime('%Y-%m-%d') if product_details.sellenddate}}"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="discontinueddate">Discontinued Date</label>
+      <input
+        type="date"
+        class="form-control"
+        name="discontinueddate"
+        id="discontinueddate"
+        value="{{product_details.discontinueddate.strftime('%Y-%m-%d') if product_details.sellenddate}}"
+      />
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" class="btn btn-primary">Update Product</button>
+  </form>
+</div>
+{% endblock %}

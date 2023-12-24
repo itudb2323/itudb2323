@@ -4,6 +4,7 @@ from uuid import uuid1
 from datetime import datetime
 from models.Product import Product
 from models.ProductDetails import ProductDetails
+from models.Product import foreign_key_references
 from db import db
 
 
@@ -177,3 +178,95 @@ class ProductDAO:
         ).scalar()
         db.session.commit()
         return product
+
+    @staticmethod
+    def update(id, **kwargs):
+        product = Product(**kwargs)
+        product.productid = id
+        product.modifieddate = datetime.now()
+        db.session.execute(
+            text(
+                """UPDATE production.product
+                   SET
+                    Name = :Name,
+                    ProductNumber = :ProductNumber,
+                    MakeFlag = :MakeFlag,
+                    FinishedGoodsFlag = :FinishedGoodsFlag,
+                    Color = :Color,
+                    SafetyStockLevel = :SafetyStockLevel,
+                    ReorderPoint = :ReorderPoint,
+                    StandardCost = :StandardCost,
+                    ListPrice = :ListPrice,
+                    Size = :Size,
+                    SizeUnitMeasureCode = :SizeUnitMeasureCode,
+                    WeightUnitMeasureCode = :WeightUnitMeasureCode,
+                    Weight = :Weight,
+                    DaysToManufacture = :DaysToManufacture,
+                    ProductLine = :ProductLine,
+                    Class_ = :Class,
+                    Style = :Style,
+                    ProductSubcategoryID = :ProductSubcategoryID,
+                    ProductModelID = :ProductModelID,
+                    SellStartDate = :SellStartDate,
+                    SellEndDate = :SellEndDate,
+                    DiscontinuedDate = :DiscontinuedDate,
+                    ModifiedDate = :ModifiedDate
+                   WHERE ProductID = :ProductID;"""
+            ),
+            {
+                "ProductID": product.productid,
+                "Name": product.name,
+                "ProductNumber": product.productnumber,
+                "MakeFlag": product.makeflag,
+                "FinishedGoodsFlag": product.finishedgoodsflag,
+                "Color": product.color,
+                "SafetyStockLevel": product.safetystocklevel,
+                "ReorderPoint": product.reorderpoint,
+                "StandardCost": product.standardcost,
+                "ListPrice": product.listprice,
+                "Size": product.size,
+                "SizeUnitMeasureCode": product.sizeunitmeasurecode,
+                "WeightUnitMeasureCode": product.weightunitmeasurecode,
+                "Weight": product.weight,
+                "DaysToManufacture": product.daystomanufacture,
+                "ProductLine": product.productline,
+                "Class": product.class_,
+                "Style": product.style,
+                "ProductSubcategoryID": product.productsubcategoryid,
+                "ProductModelID": product.productmodelid,
+                "SellStartDate": product.sellstartdate,
+                "SellEndDate": product.sellenddate,
+                "DiscontinuedDate": product.discontinueddate,
+                "ModifiedDate": product.modifieddate,
+            },
+        )
+        db.session.commit()
+        return product
+
+    @staticmethod
+    def delete(id):
+        try:
+            # Delete all records that reference this product in other tables
+            for table, columns in foreign_key_references.items():
+                for column in columns:
+                    db.session.execute(
+                        text(
+                            f"""DELETE FROM {table}
+                                WHERE {column} = :ProductID;"""
+                        ),
+                        {"ProductID": id},
+                    )
+
+            # Now, delete the product itself
+            db.session.execute(
+                text(
+                    """DELETE FROM production.product
+                       WHERE ProductID = :ProductID;"""
+                ),
+                {"ProductID": id},
+            )
+            db.session.commit()
+            return True
+        except Exception as e:
+            db.session.rollback()
+            raise e

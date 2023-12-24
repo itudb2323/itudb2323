@@ -17,3 +17,11 @@ class ProductService:
     @staticmethod
     def create(**kwargs):
         return ProductDAO.create(**kwargs)
+    
+    @staticmethod
+    def update(id, **kwargs):
+        return ProductDAO.update(id, **kwargs)
+    
+    @staticmethod
+    def delete(id):
+        return ProductDAO.delete(id)
