@@ -12,6 +12,7 @@ class PersonDAO:
             text(
                 """SELECT * 
                     FROM person.person 
+                    order by businessentityid
                     limit :limit 
                     offset :offset;"""
             ),
