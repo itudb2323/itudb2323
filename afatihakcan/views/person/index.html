@@ -44,12 +44,29 @@
             font-weight: bold;
             color: #333;
         }
+
+        .create-button {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        .create-button:hover {
+            background-color: #218838;
+        }
     </style>
 {% endblock %}
 
 {% block body %}
     
     <h1>Person List</h1>
+
+    <a class="create-button" href="{{ url_for('person.create') }}">Create Person</a>
+
 
     <table>
         <thead>
