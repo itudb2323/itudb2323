@@ -4,81 +4,81 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}"> <!-- base style for header -->
     <title>{% block title %}Document Management{% endblock %}</title>
-    {% block style %}
+    {% block style %} <!-- additional styles added inside of this block -->
         <style>
-            .entrance-content {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                text-align: center; 
-            }
-            .entrance-content li {
-                text-align: left;
-                margin-bottom: 10px; 
-            }
-            .entrance-content ul {
-                text-align: center;  /* Center text within these elements */
-            }
-
-            .table-bordered {
-                border-collapse: collapse;
-                width: 70%;
-                margin: auto;
-            }
-            
-            .table-bordered, .table-bordered th, .table-bordered td {
-                border: 1px solid #ddd;
-            }
-            
-            .table-striped tbody tr {
-                background-color: #f9f9f9;
-            }
-            
-            .table-bordered th, .table-bordered td {
-                padding: 8px;
-                text-align: left;
-            }
-            
-            .table-bordered th {
-                background-color: #f2f2f2;
-            }
-            
-            /* Additional styling for Key Information section */
-            .table-bordered th[colspan="2"] {
-                background-color: #e0e0e0;
-            }
-            .table-relationships {
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: space-around;
-            }
-            
+        .entrance-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center; 
+        }
+        .entrance-content li {
+            text-align: left;
+            margin-bottom: 10px; 
+        }
+        .entrance-content ul {
+            text-align: center;  
+        }
+        
+        .table-bordered {
+            border-collapse: collapse;
+            width: 70%;
+            margin: auto;
+        }
+        
+        .table-bordered, .table-bordered th, .table-bordered td {
+            border: 1px solid #ddd;
+        }
+        
+        .table-striped tbody tr {
+            background-color: #f9f9f9;
+        }
+        
+        .table-bordered th, .table-bordered td {
+            padding: 8px;
+            text-align: left;
+        }
+        
+        .table-bordered th {
+            background-color: #f2f2f2;
+        }
+        
+        /* Additional styling for Key Information section */
+        .table-bordered th[colspan="2"] {
+            background-color: #e0e0e0;
+        }
+        .table-relationships {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+        
+        .relationship {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 20px;
+            width: 45%;
+        }
+        
+        .relationship .description {
+            width: 60%;
+        }
+        
+        .relationship .table-image {
+            width: 35%;
+            margin-left: 15px;
+        }
+        
+        @media (max-width: 768px) {
             .relationship {
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                border: 1px solid #ccc;
-                padding: 15px;
-                margin-bottom: 20px;
-                width: 45%;
+                width: 100%;
             }
-            
-            .relationship .description {
-                width: 60%;
-            }
-            
-            .relationship .table-image {
-                width: 35%;
-                margin-left: 15px;
-            }
-            
-            @media (max-width: 768px) {
-                .relationship {
-                    width: 100%;
-                }
-            }
+        }
         </style>
     {% endblock %}
 </head>

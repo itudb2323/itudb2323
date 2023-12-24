@@ -5,9 +5,8 @@
     <a href="{{ url_for('document.findAllDocuments') }}">Return to Documents</a>
 {% endblock %}
 
-{% block style %}
+{% block style %} <!-- additional style for addition.html -->
     <style>
-        /* Add your custom styles here */
         #add-doc {
             max-width: 600px;
             margin: 0 auto;
@@ -216,18 +215,19 @@
                         console.error('Error:', error.message);
                     });
                 }
-                        // Function to validate required fields
-                function validateRequiredFields() {
-                    var requiredFields = form.querySelectorAll('[required]');
-                    for (var i = 0; i < requiredFields.length; i++) {
-                        if (!requiredFields[i].value.trim()) {
-                            alert('Please fill in all required fields.');
-                            return false;
-                        }
-                    }
-                    return true;
-                }
             });
+
+            // Function to validate required fields
+            function validateRequiredFields() {
+                var requiredFields = form.querySelectorAll('[required]');
+                for (var i = 0; i < requiredFields.length; i++) {
+                    if (!requiredFields[i].value.trim()) {
+                        alert('Please fill in all required fields.');
+                        return false;
+                    }
+                }
+                return true;
+            }
         });
     </script>
 

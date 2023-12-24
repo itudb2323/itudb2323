@@ -8,16 +8,19 @@ from flask import (
     jsonify,
 )
 from services.DocumentService import DocumentService
-import io, binascii, array
+import io
 
+# Create a Blueprint for the DocumentController with a specified URL prefix
 document_bp = Blueprint(name="document", import_name=__name__, url_prefix="/document")
 
 
+# Route to display the base HTML template
 @document_bp.route("/", methods=["GET"])
 def showBase():
     return render_template("base.html")
 
 
+# Route to download a file based on its document_node
 @document_bp.route("/download/<path:document_node>", methods=["GET"])
 def downloadFile(document_node):
     # Fetch file content and filename from the database
@@ -40,6 +43,7 @@ def downloadFile(document_node):
     )
 
 
+# Route to delete a document based on its document_node
 @document_bp.route(
     "/all_documents/delete_document/<path:document_node>", methods=["POST"]
 )
@@ -54,18 +58,21 @@ def deleteDocument(document_node):
         )
 
 
+# Route to display all documents
 @document_bp.route("/all_documents", methods=["GET"])
 def findAllDocuments():
     documents = DocumentService.findAllDocuments()
     return render_template("document/document.html", documents=documents)
 
 
+# Route to display owner details based on owner_id
 @document_bp.route("/owner_details/<int:owner_id>", methods=["GET"])
 def findOwnerDetailsById(owner_id):
     owner_details = DocumentService.findOwnerDetailsById(owner_id)
     return render_template("document/details.html", owner_details=owner_details)
 
 
+# Route to display the form for adding a new document and handle its submission
 @document_bp.route("/all_documents/add_new", methods=["GET", "POST"])
 def showAddDocumentForm():
     if request.method == "GET":
@@ -108,13 +115,13 @@ def showAddDocumentForm():
         return redirect(url_for("document.findAllDocuments"))
 
 
+# Route to display the form for updating a document and handle its submission
 @document_bp.route(
     "/all_documents/update/<path:document_node>", methods=["GET", "POST"]
 )
 def showUpdateDocumentForm(document_node):
     old_document = DocumentService.findDocumentByNode(document_node)
     if request.method == "GET":
-        # print("OLD in Cont GET", old_document.documentnode)
         employees = DocumentService.getAllEmployees()
         existing_document_nodes = DocumentService.getExistingDocumentNodes()
         return render_template(
@@ -138,8 +145,6 @@ def showUpdateDocumentForm(document_node):
         documentnode = request.form.get("documentnode")
         isfilechanged = request.form.get("isfilechanged")
 
-        print("File Changed", isfilechanged)
-
         # Call the addDocument function with the form data
         DocumentService.updateDocument(
             title=title,
@@ -160,6 +165,7 @@ def showUpdateDocumentForm(document_node):
         return redirect(url_for("document.findAllDocuments"))
 
 
+# Route to search for documents based on a search input
 @document_bp.route("/all_documents/search/<path:search_input>")
 def searchDocuments(search_input):
     documents = DocumentService.findDocumentByTitle(search_input)

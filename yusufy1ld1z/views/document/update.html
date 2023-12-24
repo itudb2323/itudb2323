@@ -1,13 +1,11 @@
-<!-- addition.html -->
 {% extends 'base.html' %}
 
 {% block navigation_link %}
     <a href="{{ url_for('document.findAllDocuments') }}">Return to Documents</a>
 {% endblock %}
 
-{% block style %}
+{% block style %} <!-- additional style for update.html -->
     <style>
-        /* Add your custom styles here */
         #add-doc {
             max-width: 600px;
             margin: 0 auto;
@@ -211,7 +209,6 @@
                             // Success, handle the successful response (e.g., redirect or display a success message)
                             alert('Document updated successfully!');
                             window.location.href = '{{ url_for("document.findAllDocuments") }}';
-                            // You might want to redirect the user to a different page or update the UI accordingly
                         } else {
                             // Handle other error cases
                             return response.json().then(data => {
@@ -274,5 +271,4 @@
             }
         });
     </script>
-
 {% endblock %}

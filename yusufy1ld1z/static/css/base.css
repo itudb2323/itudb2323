@@ -1,13 +1,12 @@
-/* Example styles */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #dbe5f1; /* Pastel blue background color */
+    background-color: #dbe5f1;
 }
 
 header {
-    background-color: #6c7a89; /* Slightly darker pastel blue for header */
+    background-color: #6c7a89; 
     color: #fff;
     padding: 10px;
     text-align: center;
@@ -38,3 +37,4 @@ footer {
     padding: 10px;
     text-align: center;
 }
+

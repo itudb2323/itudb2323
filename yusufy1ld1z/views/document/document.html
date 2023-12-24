@@ -6,6 +6,35 @@
 
 {% block header %}All Documents{% endblock %}
 
+{% block style %}
+    <style>
+        /* Add some styles for the selected rows */
+        tr.selected {
+            background-color: #cce5ff; 
+        }
+        /* Add some styles to position the search container */
+        #search-container {
+            position: absolute;
+            top: 220px; /* Adjust the top position as needed */
+            right: 10px; /* Adjust the right position as needed */
+            display: flex;
+            align-items: center;
+        }
+
+        #search-input {
+            margin-right: 5px;
+        }
+        
+        #action-buttons {
+            margin-bottom: 10px; /* Adjust the margin as needed */
+        }
+
+        #action-buttons button {
+            margin-right: 5px; /* Adjust the margin as needed */
+        }
+    </style>
+{% endblock %}
+
 {% block content %}
     <h2>All Documents</h2>
     
@@ -57,25 +86,30 @@
         </tbody>
     </table>
     <script>
+        // Variable to store the currently selected document
         var selectedDocument = null;
     </script>
     <script>
-
+        // Function to perform document search based on user input
         function searchDocuments() {
+            // Retrieve search input from the DOM
             var searchInput = document.getElementById('search-input').value;
-            // Implement your search logic here, e.g., navigate to a new controller with the search input
+
+            // Construct the URL for searching documents and navigate to it
             var searchUrl = "{{ url_for('document.searchDocuments', search_input='__search_input__') }}";
             searchUrl = searchUrl.replace('__search_input__', searchInput);
             window.location.href = searchUrl;
         }
 
+        // Function to navigate to the form for adding a new document
         function openAddDocumentForm() {
             window.location.href = "{{ url_for('document.showAddDocumentForm') }}";
         }
 
+        // Function to navigate to the form for updating the selected document
         function openUpdateDocumentForm() {
             if (selectedDocument) {
-                // Navigate to the update page with the selected document ID
+                // Construct the URL for updating and navigate to it with the selected document ID
                 var updateUrl = "{{ url_for('document.showUpdateDocumentForm', document_node='__document_node__') }}";
                 updateUrl = updateUrl.replace('__document_node__', selectedDocument.documentnode);
                 window.location.href = updateUrl;
@@ -83,7 +117,8 @@
                 alert("Please select a document to update.");
             }
         }
-    
+
+        // Function to confirm and delete the selected document
         function confirmDeleteDocument() {
             if (selectedDocument) {
                 // Show a confirmation dialog
@@ -92,19 +127,19 @@
                     // Proceed with deletion
                     var deleteUrl = "{{ url_for('document.deleteDocument', document_node='__document_node__') }}";
                     deleteUrl = deleteUrl.replace('__document_node__', selectedDocument.documentnode);
-        
-                    // Submit the form using AJAX
+
+                    // Submit the deletion request using AJAX
                     fetch(deleteUrl, {
                         method: 'POST',
                     })
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
-                            // Success, handle the successful response (e.g., redirect or display a success message)
+                            // Handle successful deletion (e.g., redirect or display a success message)
                             alert('Document deleted successfully!');
                             window.location.href = '{{ url_for("document.findAllDocuments") }}';
                         } else {
-                            // Handle the case where deletion was not successful
+                            // Handle unsuccessful deletion
                             alert('Error: ' + data.message);
                         }
                     })
@@ -117,7 +152,8 @@
                 alert("Please select a document to delete.");
             }
         }
-    
+
+        // Function to highlight and store information about the selected document
         function selectDocument(row) {
             // Highlight the selected row
             var selectedRows = document.querySelectorAll('tr.selected');
@@ -125,36 +161,11 @@
                 selectedRow.classList.remove('selected');
             });
             row.classList.add('selected');
-            // Store the selected document information
+
+            // Store information about the selected document
             selectedDocument = {
                 documentnode: row.getAttribute('data-document-node'),
             };
         }
     </script>
-    <style>
-        /* Add some styles for the selected rows */
-        tr.selected {
-            background-color: #cce5ff; 
-        }
-        /* Add some styles to position the search container */
-        #search-container {
-            position: absolute;
-            top: 220px; /* Adjust the top position as needed */
-            right: 10px; /* Adjust the right position as needed */
-            display: flex;
-            align-items: center;
-        }
-
-        #search-input {
-            margin-right: 5px;
-        }
-        
-        #action-buttons {
-            margin-bottom: 10px; /* Adjust the margin as needed */
-        }
-
-        #action-buttons button {
-            margin-right: 5px; /* Adjust the margin as needed */
-        }
-    </style>
 {% endblock %}

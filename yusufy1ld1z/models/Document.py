@@ -14,11 +14,14 @@ from models.BaseEntity import BaseEntity
 from dataclasses import dataclass
 
 
+# Define a data class 'Document' representing a database entity
 @dataclass
 class Document(BaseEntity):
+    # Database table name and schema
     __tablename__ = "document"
     __table_args__ = {"schema": "production"}
 
+    # Define columns with their respective data types and constraints
     title = Column(String(50), nullable=False)
     owner = Column(Integer, nullable=False)
     folderflag = Column(Boolean, nullable=False, default=False)
