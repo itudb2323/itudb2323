@@ -2,3 +2,4 @@
 09.11.2023 - Created the environment and a test Flask app.
 25.12.2023 - Finished developing the Flask app. Pushed the source files.
 25.12.2023 - Did small changes.
+25.12.2023 - Optimized the imports
