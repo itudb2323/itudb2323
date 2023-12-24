@@ -1,20 +1,94 @@
 {% extends 'base.html' %}
 
-{% block body %}
-    
-    <h1>Person Details</h1>
+{% block style %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
 
-    <h4>Id: {{ personDetails.businessentityid }}</h4>
-    <h4>First Name: {{ personDetails.firstname + " " + (personDetails.middlename or "") }}</h4>
-    <h4>Last Name: {{ personDetails.lastname }}</h4>
-    <h4>Email: {{personDetails.emailaddress}}</h4>
-    <h4>Phone: {{personDetails.phonenumber}}</h4>
-    <h4>Address: {{personDetails.address}}</h4>
-    <h4>City: {{personDetails.city}}</h4>
-    <h4>Postal code: {{personDetails.postalcode}}</h4>
-    <h4>State: {{personDetails.state}}</h4>
+        h1 {
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .attribute-box {
+            width: 25%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        a {
+            color: #28a745;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Person Details</h1>
+
+        <div class="attribute-box">
+            <strong>Id:</strong>
+            <p>{{ personDetails.businessentityid }}</p>
+        </div>
+
+        <div class="attribute-box">
+            <strong>First Name:</strong>
+            <p>{{ personDetails.firstname + " " + (personDetails.middlename or "") }}</p>
+        </div>
+
+        <div class="attribute-box">
+            <strong>Last Name:</strong>
+            <p>{{ personDetails.lastname }}</p>
+        </div>
+
+        <div class="attribute-box">
+            <strong>Email:</strong>
+            <p>{{ personDetails.emailaddress }}</p>
+        </div>
+
+        <div class="attribute-box">
+            <strong>Phone:</strong>
+            <p>{{ personDetails.phonenumber }}</p>
+        </div>
+
+        <div class="attribute-box">
+            <strong>Address:</strong>
+            <p>{{ personDetails.address }}</p>
+        </div>
+
+        <div class="attribute-box">
+            <strong>City:</strong>
+            <p>{{ personDetails.city }}</p>
+        </div>
+
+        <div class="attribute-box">
+            <strong>Postal Code:</strong>
+            <p>{{ personDetails.postalcode }}</p>
+        </div>
+
+        <div class="attribute-box">
+            <strong>State:</strong>
+            <p>{{ personDetails.state }}</p>
+        </div>
+    </div>
 
     <a href="{{ url_for('person.updateDetailsById', id=personDetails.businessentityid) }}">Update Details</a>
-
-
 {% endblock %}
